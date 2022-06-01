@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/23 15:10:55 by marlean           #+#    #+#             */
-/*   Updated: 2022/05/23 15:11:42 by marlean          ###   ########.fr       */
+/*   Created: 2021/10/11 15:45:52 by marlean           #+#    #+#             */
+/*   Updated: 2021/10/11 15:57:39 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include <stdlib.h>
-# include <readline/readline.h>
-# include <stdio.h>
-
-
-
-#endif
+int	ft_isascii(int ch)
+{
+	if ((ch >= 0) && (ch <= 127))
+		return (1);
+	else
+		return (0);
+}
