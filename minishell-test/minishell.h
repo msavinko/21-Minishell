@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:10:55 by marlean           #+#    #+#             */
-/*   Updated: 2022/06/01 19:40:31 by marlean          ###   ########.fr       */
+/*   Updated: 2022/06/02 12:27:26 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ typedef struct	s_command
 	char				*delim;
 	struct s_command	*next;
 }	t_com;
-
-
 
 t_envp	*envp_new(char *content);
 void	read_envp(char **env, t_envp *envp_list);

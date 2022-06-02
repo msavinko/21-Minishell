@@ -6,7 +6,7 @@
 #    By: marlean <marlean@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 15:12:33 by marlean           #+#    #+#              #
-#    Updated: 2022/06/01 15:16:34 by marlean          ###   ########.fr        #
+#    Updated: 2022/06/02 16:35:28 by marlean          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,15 +19,16 @@ LIB_DIR	=	libft/
 LIBFT	=	libft/libft.a
 
 #подключение библиотеки readline к проекту
-RL_INCLUDE	=	$(HOME)/.brew/Cellar/readline/8.1.2/include
-RL_LIB		=	$(HOME)/.brew/Cellar/readline/8.1.2/lib
+# RL_INCLUDE	=	$(HOME)/.brew/Cellar/readline/8.1/include
+# RL_LIB		=	$(HOME)/.brew/Cellar/readline/8.1/lib
 
 FILES_MS	=	main.c \
 				list_utils.c \
-				
+				signal_handler.c \
 
-OBJ_MS		=	$(FILES_MS:%.c=%.o)
+OBJ_MS		=	$(FILES_MS:%.c=%.o) 
 FLAGS_MS	=	-Wall -Wextra -Werror
+
 
 .PHONY	: all clean fclean re libft
 
@@ -36,21 +37,25 @@ all		: libft $(NAME_MS)
 libft	:
 	@make -C $(LIB_DIR)
 
+#компиляция объектных файлов
+%.o	:	%.c  $(HEADER_MS) Makefile
+	cc $(FLAGS_MS) -I$(shell brew --prefix readline)/include -c $< -o $@ -I $(HEADER_MS)
+#	cc $(FLAGS_MS) -c $< -o $@ 
+
 #сборка исполняемого файла с подключением библиотеки 
 $(NAME_MS):	$(OBJ_MS)
-	cc $(FLAGS_MS)  -lreadline -L $(RL_LIB) -I $(RL_INCLUDE) $(OBJ_MS) $(LIBFT) -o $@ 
-#	cc $(FLAGS_MS) -L$(shell brew --prefix readline)/lib -lreadline $(OBJ_MS) $(LIBFT) -o $@ 
-
-#компиляция объектных файлов
-%.o	:	%.c $(LIBFT) $(HEADER_MS) Makefile
-	cc $(FLAGS_MS) -c $< -o $@
+	cc $(FLAGS_MS) $(LIBFT) -L$(shell brew --prefix readline)/lib -lreadline $(OBJ_MS) -o $@ 
+#	cc $(FLAGS_MS) -L $(RL_LIB) -I $(RL_INCLUDE) -lreadline $(OBJ_MS) $(LIBFT) -o $@ 
 
 clean	:
-	rm -f $(OBJ_MS)
+	rm -rf $(OBJ_MS)
 	make -C $(LIB_DIR) clean
 
 fclean	:
-	rm -f $(NAME_MS)
+	rm -rf $(NAME_MS)
 	MAKE -C $(LIB_DIR) fclean
 
 re		: fclean all
+
+# -L/Users/ваш ник/.brew/Cellar/readline/8.1/lib/
+# -I/Users/ваш ник/.brew/Cellar/readline/8.1/include

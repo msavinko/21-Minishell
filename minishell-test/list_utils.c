@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 14:55:58 by marlean           #+#    #+#             */
-/*   Updated: 2022/06/01 19:24:46 by marlean          ###   ########.fr       */
+/*   Updated: 2022/06/02 10:53:00 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	read_envp(char **env, t_envp *envp_list)
 	{
 		new = envp_new(env[i++]);
 		envp_add_front(&envp_list, new);
-
 	}
 }
 
@@ -40,7 +39,6 @@ t_envp	*envp_new(char *content)
 	len = ft_strlen(content);
 	while (content[i] != '=')
 		i++;
-	
 	envp->key = malloc (sizeof(char) * (i + 1));
 	envp->value = malloc (sizeof(char) * (len - i + 1));
 	if (!envp->key || !envp->value)

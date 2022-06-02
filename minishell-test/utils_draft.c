@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 17:23:13 by marlean           #+#    #+#             */
-/*   Updated: 2022/06/01 19:41:05 by marlean          ###   ########.fr       */
+/*   Updated: 2022/06/02 10:52:04 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@ void	read_commands(t_com **com)
 {
 	//("cat lol.c | cat > lol.c") команда из чеклиста разбивается на список из 3 листов
 	t_com	*new;
-	// t_com	*tmp;
-
-	// tmp = com;
 	*com = com_new("cat", "", "lol.c", "|");
 	new = com_new("cat", "", "", ">");
 	com_add_back(com, new);
