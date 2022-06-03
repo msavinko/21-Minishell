@@ -6,11 +6,25 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 14:55:58 by marlean           #+#    #+#             */
-/*   Updated: 2022/06/02 16:05:25 by marlean          ###   ########.fr       */
+/*   Updated: 2022/06/03 11:57:09 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*read_the_line(void)
+{
+	char	*read_str;
+
+	read_str = readline("Myshell 🐚 ");
+	if (!read_str)
+	{
+		printf("exit");
+		rl_clear_history();
+		exit(1);
+	}
+	return (read_str);
+}
 
 void	read_envp(char **env, t_envp **envp_list)
 {

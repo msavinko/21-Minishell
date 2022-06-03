@@ -6,7 +6,7 @@
 #    By: marlean <marlean@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 15:12:33 by marlean           #+#    #+#              #
-#    Updated: 2022/06/03 11:04:06 by marlean          ###   ########.fr        #
+#    Updated: 2022/06/03 18:32:14 by marlean          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,8 @@ FILES_MS	=	main.c \
 				signal_handler.c \
 				utils_draft.c \
 				check_syntax.c \
+				split_by_words.c \
+				count_words.c \
 
 
 OBJ_MS		=	$(FILES_MS:%.c=%.o) 

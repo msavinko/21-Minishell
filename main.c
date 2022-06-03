@@ -6,30 +6,11 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 10:48:58 by marlean           #+#    #+#             */
-/*   Updated: 2022/06/03 11:45:49 by marlean          ###   ########.fr       */
+/*   Updated: 2022/06/03 15:16:31 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// char	*read_the_line(void)
-// {
-// 	char	*read_str;
-
-// 	read_str = readline("Myshell 🐚 ");
-// 	if (!read_str)
-// 	{
-// 		printf("exit");
-// 		g_exit_code = 1;
-// 		// rl_clear_history();
-// 		// free(read_str);
-// 		exit(g_exit_code);
-// 	}
-// 	// free(read_str);
-// 	add_history(read_str);
-// 	return (read_str);
-// }
-
 
 int main(int argc, char **argv, char **env)
 {
@@ -38,9 +19,10 @@ int main(int argc, char **argv, char **env)
 	t_envp	*envp_list;
 	t_com	*com;
 	char	*read_str;
+	char	**split_words;
 
 	envp_list = NULL;
-	g_exit_code = -1;
+	split_words = NULL;
 	com = NULL;
 	read_envp(env, &envp_list); // в envp_list записаны переменные окружения в односвязном списке
 	read_commands(&com); //создан односвязный список из 3 листов (3 команды), изменять вручную
@@ -48,24 +30,23 @@ int main(int argc, char **argv, char **env)
 
 	while (1)
 	{
-		read_str = readline("Myshell 🐚 ");
-		if (!read_str)
-		{
-			printf("exit");
-			rl_clear_history();
-			exit(1);
-		}
-		signal_handler();
-
+		read_str = read_the_line();
 		if (ft_strlen(read_str) > 0)
 		{
 			add_history(read_str);
 			check_syntax(&read_str);
 		}
-		printf("str: |%s|\n", read_str);
+		//все функции вставлять сюда:
 
-		// free(read_str);
+		split_words = split_by_words(read_str); //Разбиваем строку на отдельные слова и спец символы
+
+
 	}
 	rl_clear_history();
 	return (0);
 }
+
+//Разбиваем строку на отдельные слова 
+//(спец символы |><, все внутри кавычек, 
+//символы отделенные разными пробелами). 
+//Сохранять в массив строк (кавычки удаляем)
