@@ -6,7 +6,7 @@
 #    By: marlean <marlean@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 15:12:33 by marlean           #+#    #+#              #
-#    Updated: 2022/06/02 16:35:28 by marlean          ###   ########.fr        #
+#    Updated: 2022/06/03 11:04:06 by marlean          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,9 @@ LIBFT	=	libft/libft.a
 FILES_MS	=	main.c \
 				list_utils.c \
 				signal_handler.c \
+				utils_draft.c \
+				check_syntax.c \
+
 
 OBJ_MS		=	$(FILES_MS:%.c=%.o) 
 FLAGS_MS	=	-Wall -Wextra -Werror
