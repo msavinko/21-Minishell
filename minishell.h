@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:10:55 by marlean           #+#    #+#             */
-/*   Updated: 2022/06/03 19:59:29 by marlean          ###   ########.fr       */
+/*   Updated: 2022/06/03 20:30:24 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		ft_check_eve_quotes(char *str);
 
 
 //split_by_words
-int		in_quotes(char *str, int quote_flag, char *res);
+char	*in_quotes(char *str, int quote_flag);
 char	**split_by_words(char	*str);
 
 //count_words.c
@@ -80,4 +80,8 @@ void	words_in_quotes(int	quotes_flag, int *i, int *words, char *str);
 void	count_nomal_symb(char *str, int *ind, int *num_words);
 void	count_redirects(char *str, int *ind, int *num_words);
 int		count_words(char *str, int i, int words);
+
+void	print_array(char **arr);
+
+
 #endif
