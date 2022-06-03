@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:10:55 by marlean           #+#    #+#             */
-/*   Updated: 2022/06/03 18:50:21 by marlean          ###   ########.fr       */
+/*   Updated: 2022/06/03 19:59:29 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ void	com_add_back(t_com **lst, t_com *new);
 
 //check_sytax.c
 void	check_syntax(char **str);
-int	ft_check_first_end(char **str);
-int	ft_check_eve_quotes(char *str);
+int		ft_check_first_end(char **str);
+int		ft_check_eve_quotes(char *str);
 
 
 //split_by_words
