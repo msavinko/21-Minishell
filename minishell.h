@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:10:55 by marlean           #+#    #+#             */
-/*   Updated: 2022/06/03 20:30:24 by marlean          ###   ########.fr       */
+/*   Updated: 2022/06/03 20:34:41 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,8 @@ int		count_words(char *str, int i, int words);
 
 void	print_array(char **arr);
 
+
+
+int	replace_dollar(char *str, t_envp *envp_list);
 
 #endif

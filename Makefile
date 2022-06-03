@@ -6,7 +6,7 @@
 #    By: marlean <marlean@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 15:12:33 by marlean           #+#    #+#              #
-#    Updated: 2022/06/03 18:32:14 by marlean          ###   ########.fr        #
+#    Updated: 2022/06/03 20:33:36 by marlean          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ FILES_MS	=	main.c \
 				check_syntax.c \
 				split_by_words.c \
 				count_words.c \
+				replace_dollar.c \
 
 
 OBJ_MS		=	$(FILES_MS:%.c=%.o) 

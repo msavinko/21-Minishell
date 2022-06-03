@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 10:48:58 by marlean           #+#    #+#             */
-/*   Updated: 2022/06/03 15:16:31 by marlean          ###   ########.fr       */
+/*   Updated: 2022/06/03 20:34:12 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int main(int argc, char **argv, char **env)
 		}
 		//все функции вставлять сюда:
 
+		replace_dollar(read_str, envp_list);
 		split_words = split_by_words(read_str); //Разбиваем строку на отдельные слова и спец символы
 
 
