@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mariasavinova <mariasavinova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:10:55 by marlean           #+#    #+#             */
-/*   Updated: 2022/06/03 20:34:41 by marlean          ###   ########.fr       */
+/*   Updated: 2022/06/05 20:31:17 by mariasavino      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	count_nomal_symb(char *str, int *ind, int *num_words);
 void	count_redirects(char *str, int *ind, int *num_words);
 int		count_words(char *str, int i, int words);
 
-void	print_array(char **arr);
+void	print_array(char **arr, int words);
 
 
 
