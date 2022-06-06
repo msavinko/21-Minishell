@@ -1,23 +1,12 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils_draft.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/01 17:23:13 by marlean           #+#    #+#             */
-/*   Updated: 2022/06/03 14:29:41 by marlean          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "minishell.h"
 
-void	read_commands(t_com **com)
+void read_commands(t_com **com)
 {
 	//("cat lol.c | cat > lol.c") команда из чеклиста разбивается на список из 3 листов
-	t_com	*new;
-	char	**arg;
-	
+	t_com *new;
+	char **arg;
+
 	arg = (char **)malloc((15) * sizeof(char *));
 	arg[0] = "lol.c";
 	*com = com_new("cat", arg, PIPE);
@@ -29,9 +18,9 @@ void	read_commands(t_com **com)
 	com_add_back(com, new);
 }
 
-t_com	*com_new(char *name, char **arg, int delim)
+t_com *com_new(char *name, char **arg, int delim)
 {
-	t_com	*com;
+	t_com *com;
 
 	com = malloc(sizeof(t_com));
 	if (!com)
@@ -43,9 +32,9 @@ t_com	*com_new(char *name, char **arg, int delim)
 	return (com);
 }
 
-void	com_add_back(t_com **lst, t_com *new)
+void com_add_back(t_com **lst, t_com *new)
 {
-	t_com	*elem;
+	t_com *elem;
 
 	elem = *lst;
 	if (elem)

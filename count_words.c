@@ -1,50 +1,41 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   count_words.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 17:43:47 by marlean           #+#    #+#             */
-/*   Updated: 2022/06/03 18:33:27 by marlean          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-int	ft_separator(char c)
+int ft_separator(char c)
 {
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\v'
-		|| c == '\f' || c == '\r' || c == '\'' || c == '\"'
-		|| c == '|' || c == '<' || c == '>')
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r' || c == '\'' || c == '\"' || c == '|' || c == '<' || c == '>')
 		return (1);
 	else
 		return (0);
 }
 
-void	words_in_quotes(int quotes_flag, int *i, int *words, char *str)
+void words_in_quotes(int quotes_flag, int *i, int *words, char *str)
 {
 	if (str[++(*i)])
 	{
-		if (quotes_flag == 1)
+		if (str[(*i)] == '\'' || str[(*i)] == '\"')
+		{
+			(*i)++;
+			return;
+		}
+		if (quotes_flag == SIN_Q)
 		{
 			while (str[(*i)] != '\'')
 				(*i)++;
-		}	
-		else if (quotes_flag == 2)
+		}
+		else if (quotes_flag == DOUB_Q)
 		{
 			while (str[(*i)] != '\"')
 				(*i)++;
-		}	
+		}
 	}
 	(*words)++;
 	(*i)++;
 }
 
-void	count_nomal_symb(char *str, int *ind, int *num_words)
+void count_nomal_symb(char *str, int *ind, int *num_words)
 {
-	int	i;
-	int	words;
+	int i;
+	int words;
 
 	i = *ind;
 	words = *num_words;
@@ -55,7 +46,7 @@ void	count_nomal_symb(char *str, int *ind, int *num_words)
 		{
 			words_in_quotes(1, &i, &words, str);
 			words--;
-		}	
+		}
 		else if (str[i] == '\"')
 		{
 			words_in_quotes(2, &i, &words, str);
@@ -66,10 +57,10 @@ void	count_nomal_symb(char *str, int *ind, int *num_words)
 	*ind = ++i;
 }
 
-void	count_redirects(char *str, int *ind, int *num_words)
+void count_redirects(char *str, int *ind, int *num_words)
 {
-	int	i;
-	int	words;
+	int i;
+	int words;
 
 	i = *ind;
 	words = *num_words;
@@ -91,16 +82,16 @@ void	count_redirects(char *str, int *ind, int *num_words)
 	*ind = i;
 }
 
-int	count_words(char *str, int i, int words)
+int count_words(char *str, int i, int words)
 {
 	while (str[i])
 	{
 		while (str[i] && ft_isspace(str[i]))
 			i++;
 		if (str[i] == '\'')
-			words_in_quotes(1, &i, &words, str);
+			words_in_quotes(SIN_Q, &i, &words, str);
 		else if (str[i] == '\"')
-			words_in_quotes(2, &i, &words, str);
+			words_in_quotes(DOUB_Q, &i, &words, str);
 		else if (str[i] == '|')
 		{
 			words++;
