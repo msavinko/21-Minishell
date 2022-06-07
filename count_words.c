@@ -2,59 +2,11 @@
 
 int ft_separator(char c)
 {
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r' || c == '\'' || c == '\"' || c == '|' || c == '<' || c == '>')
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\v'
+		|| c == '\f' || c == '\r' || c == '|' || c == '<' || c == '>')
 		return (1);
 	else
 		return (0);
-}
-
-void words_in_quotes(int quotes_flag, int *i, int *words, char *str)
-{
-	if (str[++(*i)])
-	{
-		if (str[(*i)] == '\'' || str[(*i)] == '\"')
-		{
-			(*i)++;
-			return;
-		}
-		if (quotes_flag == SIN_Q)
-		{
-			while (str[(*i)] != '\'')
-				(*i)++;
-		}
-		else if (quotes_flag == DOUB_Q)
-		{
-			while (str[(*i)] != '\"')
-				(*i)++;
-		}
-	}
-	(*words)++;
-	(*i)++;
-}
-
-void count_nomal_symb(char *str, int *ind, int *num_words)
-{
-	int i;
-	int words;
-
-	i = *ind;
-	words = *num_words;
-	while (str[i] && !ft_separator(str[i]))
-	{
-		i++;
-		if (str[i] == '\'')
-		{
-			words_in_quotes(1, &i, &words, str);
-			words--;
-		}
-		else if (str[i] == '\"')
-		{
-			words_in_quotes(2, &i, &words, str);
-			words--;
-		}
-	}
-	*num_words = ++words;
-	*ind = ++i;
 }
 
 void count_redirects(char *str, int *ind, int *num_words)
@@ -82,27 +34,54 @@ void count_redirects(char *str, int *ind, int *num_words)
 	*ind = i;
 }
 
+void	count_rest(char *str, int *ind, int *num_words)
+{
+	int i;
+	int count_one;
+	int count_double;
+
+	i = *ind;
+	count_one = 0;
+	count_double = 0;
+	if (!ft_strncmp(&str[(*ind)], "\'\'", 2) || !ft_strncmp(&str[(*ind)], "\"\"", 2))
+	{
+		*ind = i + 2;
+		return ;
+	}	
+	while (str[i]) 
+	{
+		if (ft_separator(str[i]) && count_one % 2 == 0 && count_double % 2 == 0)
+		{
+			(*num_words)++;
+			*ind = i;
+			return ;
+		}
+		if (str[i] == '\'' && count_double % 2 == 0)
+			count_one++;
+		if (str[i] == '\"' && count_one % 2 == 0)
+			count_double++;
+		i++;
+	}
+	(*num_words)++;
+	*ind = i;
+}
+
 int count_words(char *str, int i, int words)
 {
 	while (str[i])
 	{
 		while (str[i] && ft_isspace(str[i]))
 			i++;
-		if (str[i] == '\'')
-			words_in_quotes(SIN_Q, &i, &words, str);
-		else if (str[i] == '\"')
-			words_in_quotes(DOUB_Q, &i, &words, str);
-		else if (str[i] == '|')
+		if (str[i] == '|')
 		{
 			words++;
 			i++;
 		}
 		else if (str[i] == '<' || str[i] == '>')
 			count_redirects(str, &i, &words);
-		else if (str[i] && !ft_separator(str[i]))
-			count_nomal_symb(str, &i, &words);
 		else
-			i++;
+			count_rest(str, &i, &words);
 	}
 	return (words);
 }
+

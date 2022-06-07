@@ -25,11 +25,11 @@ int main(int argc, char **argv, char **env)
 			check_syntax(&read_str);
 		}
 		replace_dollar(&read_str, envp_list);
-
+		// printf("STR %s\n\n", read_str);
 		split_words = split_by_words(read_str); //Разбиваем строку на отдельные слова и спец символы
 
 		print_array(split_words);
-		com = make_struct(split_words); // логические разледители.
+		// com = make_struct(split_words); // логические разледители.
 	}
 	rl_clear_history();
 	return (0);

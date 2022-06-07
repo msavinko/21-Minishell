@@ -35,6 +35,7 @@ typedef struct s_command
 	char *name;
 	char **arg;
 	int delim;
+	char *file;
 	struct s_command *next;
 } t_com;
 
@@ -59,12 +60,19 @@ int ft_check_first_end(char **str);
 int ft_check_eve_quotes(char *str);
 
 // split_by_words
-int write_symb(char **res, char *str);
-int in_quotes(int quotes, char **res, char *str);
-int write_redir(char **res, char *str);
+// int write_symb(char **res, char *str);
+// int in_quotes(int quotes, char **res, char *str);
+// int write_redir(char **res, char *str);
+// char **split_by_words(char *str);
+// int write_words(char **res, char *str);
+
+
+char	*write_redir(char *str, int *ind);
 char **split_by_words(char *str);
 
 // count_words.c
+int ft_separator_in_q(char c);
+void	count_rest(char *str, int *ind, int *num_words);
 int ft_separator(char c);
 void words_in_quotes(int quotes_flag, int *i, int *words, char *str);
 void count_nomal_symb(char *str, int *ind, int *num_words);
@@ -87,3 +95,7 @@ void ft_lstprint(t_com **com);
 t_com *com_new1(char *name, char **arg, int delim);
 
 #endif
+
+
+
+//>1 echo 333 > 2 345 >3 567
