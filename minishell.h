@@ -66,8 +66,10 @@ int ft_check_eve_quotes(char *str);
 // char **split_by_words(char *str);
 // int write_words(char **res, char *str);
 
-
+char	*ft_strdup_n(const char *s1, int num);
 char	*write_redir(char *str, int *ind);
+char	*write_words(char *str, int *ind);
+int	count_space(char *str);
 char **split_by_words(char *str);
 
 // count_words.c
