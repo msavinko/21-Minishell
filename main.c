@@ -13,7 +13,7 @@ int main(int argc, char **argv, char **env)
 	split_words = NULL;
 	com = NULL;
 	read_envp(env, &envp_list); // в envp_list записаны переменные окружения в односвязном списке
-	// read_commands(&com);		//создан односвязный список из 3 листов (3 команды), изменять вручную
+	// read_commands(&com);		//ЗАГЛУШКА создан односвязный список из 3 листов (3 команды), изменять вручную
 	signal_handler(); //обработка сигналов
 
 	while (1)
@@ -22,10 +22,13 @@ int main(int argc, char **argv, char **env)
 		if (ft_strlen(read_str) > 0)
 		{
 			add_history(read_str);
-			check_syntax(&read_str);
+			// check_syntax(&read_str);
 		}
-		replace_dollar(&read_str, envp_list);
+		// replace_dollar(&read_str, envp_list);
 		// printf("STR %s\n\n", read_str);
+		
+		
+		
 		split_words = split_by_words(read_str); //Разбиваем строку на отдельные слова и спец символы
 
 		print_array(split_words);
@@ -44,7 +47,3 @@ void print_array(char **arr)
 		i++;
 	}
 }
-//Разбиваем строку на отдельные слова
-//(спец символы |><, все внутри кавычек,
-//символы отделенные разными пробелами).
-//Сохранять в массив строк (кавычки удаляем)

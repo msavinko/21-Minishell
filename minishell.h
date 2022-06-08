@@ -41,13 +41,13 @@ typedef struct s_command
 
 // list_utils.c
 char *read_the_line(void);
-t_envp *envp_new(char *content);
 void read_envp(char **env, t_envp **envp_list);
+t_envp *envp_new(char *content);
 void envp_add_front(t_envp **lst, t_envp *new);
 
 // signal_handler.c
-int signal_handler();
 void ctrl_c_handler(int signum);
+int signal_handler();
 
 // utils_draft
 void read_commands(t_com **com);
@@ -59,27 +59,20 @@ void check_syntax(char **str);
 int ft_check_first_end(char **str);
 int ft_check_eve_quotes(char *str);
 
-// split_by_words
-// int write_symb(char **res, char *str);
-// int in_quotes(int quotes, char **res, char *str);
-// int write_redir(char **res, char *str);
-// char **split_by_words(char *str);
-// int write_words(char **res, char *str);
-
-char	*ft_strdup_n(const char *s1, int num);
-char	*write_redir(char *str, int *ind);
-char	*write_words(char *str, int *ind);
-int	count_space(char *str);
-char **split_by_words(char *str);
-
 // count_words.c
-int ft_separator_in_q(char c);
+int		ft_separator(char c);
+void	count_redirects(char *str, int *ind, int *num_words);
 void	count_rest(char *str, int *ind, int *num_words);
-int ft_separator(char c);
-void words_in_quotes(int quotes_flag, int *i, int *words, char *str);
-void count_nomal_symb(char *str, int *ind, int *num_words);
-void count_redirects(char *str, int *ind, int *num_words);
-int count_words(char *str, int i, int words);
+int		count_words(char *str, int i, int words);
+
+// split_by_words.c
+char	*write_redir(char *str, int *ind);
+int		count_space(char *str);
+char	*write_words(char *str, int *ind);
+char	**write_split_words(char **split_by_words, char *str);
+char	**split_by_words(char *str);
+
+//******************************************************************************
 
 void print_array(char **arr);
 
@@ -101,3 +94,13 @@ t_com *com_new1(char *name, char **arg, int delim);
 
 
 //>1 echo 333 > 2 345 >3 567
+
+// hey 'how are ' "" "you" ?
+// hey 'how are' ""
+// hey ''
+// hey >><|'kk'
+
+
+// echo 'str1'str2"str3 $PWD str4" "str5"'$PWD' $PWD "$PWD"
+
+//hey | > kk 'dd'"asdf '' "a

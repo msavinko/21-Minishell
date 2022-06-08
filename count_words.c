@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int ft_separator(char c)
+int	ft_separator(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n' || c == '\v'
 		|| c == '\f' || c == '\r' || c == '|' || c == '<' || c == '>')
@@ -9,10 +9,10 @@ int ft_separator(char c)
 		return (0);
 }
 
-void count_redirects(char *str, int *ind, int *num_words)
+void	count_redirects(char *str, int *ind, int *num_words)
 {
-	int i;
-	int words;
+	int	i;
+	int	words;
 
 	i = *ind;
 	words = *num_words;
@@ -36,19 +36,14 @@ void count_redirects(char *str, int *ind, int *num_words)
 
 void	count_rest(char *str, int *ind, int *num_words)
 {
-	int i;
-	int count_one;
-	int count_double;
+	int	i;
+	int	count_one;
+	int	count_double;
 
-	i = *ind;
 	count_one = 0;
 	count_double = 0;
-	if (!ft_strncmp(&str[(*ind)], "\'\'", 2) || !ft_strncmp(&str[(*ind)], "\"\"", 2))
-	{
-		*ind = i + 2;
-		return ;
-	}	
-	while (str[i]) 
+	i = *ind;
+	while (str[i])
 	{
 		if (ft_separator(str[i]) && count_one % 2 == 0 && count_double % 2 == 0)
 		{
@@ -66,7 +61,7 @@ void	count_rest(char *str, int *ind, int *num_words)
 	*ind = i;
 }
 
-int count_words(char *str, int i, int words)
+int	count_words(char *str, int i, int words)
 {
 	while (str[i])
 	{
@@ -79,9 +74,11 @@ int count_words(char *str, int i, int words)
 		}
 		else if (str[i] == '<' || str[i] == '>')
 			count_redirects(str, &i, &words);
+		else if (str[i + 1] && (!ft_strncmp(&str[i], "\'\'", 2)
+				|| !ft_strncmp(&str[i], "\"\"", 2)))
+			i += 2;
 		else
 			count_rest(str, &i, &words);
 	}
 	return (words);
 }
-
