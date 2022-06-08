@@ -30,7 +30,7 @@ t_com *com_new1(char *name, char **arg, int delim)
 // 		*lst = new;
 // }
 
-static int ft_isdelim(char *s)
+int ft_isdelim(char *s)
 {
 	if (!ft_strncmp(s, "|", 1) || !ft_strncmp(s, "<", 1) || !ft_strncmp(s, ">", 1) ||
 		!ft_strncmp(s, "<<", 2) || !ft_strncmp(s, ">>", 2))
@@ -39,7 +39,7 @@ static int ft_isdelim(char *s)
 		return (0);
 }
 
-static int delimetr(char *s)
+int delimetr(char *s)
 {
 	if (s[0] == '|')
 		return (1);

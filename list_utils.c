@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-char *read_the_line(void)
+char	*read_the_line(void)
 {
-	char *read_str;
+	char	*read_str;
 
 	read_str = readline("Myshell 🐚 ");
 	if (!read_str)
@@ -14,10 +14,10 @@ char *read_the_line(void)
 	return (read_str);
 }
 
-void read_envp(char **env, t_envp **envp_list)
+void	read_envp(char **env, t_envp **envp_list)
 {
-	int i;
-	t_envp *new;
+	int		i;
+	t_envp	*new;
 
 	i = 0;
 	*envp_list = envp_new(env[i++]);
@@ -28,11 +28,11 @@ void read_envp(char **env, t_envp **envp_list)
 	}
 }
 
-t_envp *envp_new(char *content)
+t_envp	*envp_new(char *content)
 {
-	t_envp *envp;
-	int i;
-	int len;
+	t_envp	*envp;
+	int		i;
+	int		len;
 
 	i = 0;
 	envp = malloc(sizeof(t_envp));
@@ -51,7 +51,7 @@ t_envp *envp_new(char *content)
 	return (envp);
 }
 
-void envp_add_front(t_envp **lst, t_envp *new)
+void	envp_add_front(t_envp **lst, t_envp *new)
 {
 	if (lst && new)
 	{

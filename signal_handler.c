@@ -1,10 +1,7 @@
-
 #include "minishell.h"
 
-void ctrl_c_handler(int signum)
+void	ctrl_c_handler(int signum)
 {
-	(void)signum;
-
 	if (signum == SIGINT)
 	{
 		printf("\n");
@@ -14,7 +11,7 @@ void ctrl_c_handler(int signum)
 	}
 }
 
-int signal_handler(void)
+int	signal_handler(void)
 {
 	signal(SIGINT, ctrl_c_handler);
 	signal(SIGQUIT, SIG_IGN);

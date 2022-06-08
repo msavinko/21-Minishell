@@ -96,6 +96,7 @@ char	**split_by_words(char *str)
 	i = 0;
 	j = 0;
 	words = count_words(str, i, 0);
+	printf("words: %d\n", words);
 	split_by_words = (char **)malloc((words + 1) * sizeof(char *));
 	if (!split_by_words)
 		exit(1);
