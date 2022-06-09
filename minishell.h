@@ -79,8 +79,8 @@ int check_double_delim(char **arr);
 
 // replace_dollar.c
 char *subst_dollar(char *com, t_envp *envp_list);
-char *change_dollar(char *str, int n, t_envp *envp_list);
-int replace_dollar(char *str, t_envp *envp_list);
+char *change_dollar(char *str, int *num, t_envp *envp_list);
+int replace_dollar(char **str, t_envp *envp_list);
 
 // make_struct.c
 t_com *com_new1(char *name, char **arg, int delim);

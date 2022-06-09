@@ -96,6 +96,7 @@ char **split_by_words(char *str)
 
 	i = 0;
 	j = 0;
+	str = ft_strtrim(str, WHITE_SPACES);
 	words = count_words(str, i, 0);
 	// printf("words: %d\n", words);
 	split_by_words = (char **)malloc((words + 1) * sizeof(char *));
@@ -117,3 +118,5 @@ char **split_by_words(char *str)
 	split_by_words[j] = NULL;
 	return (split_by_words);
 }
+
+// 1 echo 333 | $PWD $SHELL > 3 "678 |  " > 1 444 '$PWD' | name " 666 $a 7" >> 3 777

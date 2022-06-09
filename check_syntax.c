@@ -46,6 +46,7 @@ void check_syntax(char **str)
 	if (!ft_strlen(*str) || ft_check_eve_quotes(*str) || ft_check_first_end(str))
 	{
 		printf("syntax error near unexpected token `newline'");
+		free(*str);
 		rl_clear_history();
 		exit(1);
 	}

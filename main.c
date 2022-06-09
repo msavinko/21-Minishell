@@ -24,7 +24,7 @@ int main(int argc, char **argv, char **env)
 			add_history(read_str);
 			check_syntax(&read_str);
 		}
-		// replace_dollar(&read_str, envp_list);
+		replace_dollar(&read_str, envp_list);
 
 		split_words = split_by_words(read_str); //Разбиваем строку на отдельные слова и спец символы
 
