@@ -12,6 +12,13 @@ int main(int argc, char **argv, char **env)
 	envp_list = NULL;
 	split_words = NULL;
 	com = NULL;
+
+	com = malloc(sizeof(t_com));
+	com->name = NULL;
+	com->arg = NULL;
+	com->delim = 0;
+	com->file = NULL;
+	com->next = NULL;
 	read_envp(env, &envp_list); // в envp_list записаны переменные окружения в односвязном списке
 	// read_commands(&com);		//ЗАГЛУШКА создан односвязный список из 3 листов (3 команды), изменять вручную
 	signal_handler(); //обработка сигналов
@@ -35,7 +42,7 @@ int main(int argc, char **argv, char **env)
 			exit(1);
 		}
 		print_array(split_words);
-		// com = make_struct(split_words); // логические разледители.
+		make_struct(split_words, &com); // логические разледители.
 	}
 	rl_clear_history();
 	return (0);
