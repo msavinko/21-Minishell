@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-int ft_check_eve_quotes(char *str)
+int	ft_check_eve_quotes(char *str)
 {
-	int count_one;
-	int count_double;
-	int i;
+	int	count_one;
+	int	count_double;
+	int	i;
 
 	i = 0;
 	count_one = 0;
@@ -23,10 +23,10 @@ int ft_check_eve_quotes(char *str)
 		return (1);
 }
 
-int ft_check_first_end(char **str)
+int	ft_check_first_end(char **str)
 {
-	int i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
 	i = 0;
 	*str = ft_strtrim(*str, WHITE_SPACES);
@@ -41,9 +41,10 @@ int ft_check_first_end(char **str)
 	return (0);
 }
 
-void check_syntax(char **str)
+void	check_syntax(char **str)
 {
-	if (!ft_strlen(*str) || ft_check_eve_quotes(*str) || ft_check_first_end(str))
+	if (!ft_strlen(*str) || ft_check_eve_quotes(*str)
+		|| ft_check_first_end(str))
 	{
 		printf("syntax error near unexpected token `newline'");
 		free(*str);
@@ -51,13 +52,13 @@ void check_syntax(char **str)
 		exit(1);
 	}
 	else
-		return;
+		return ;
 }
 
 //проверяет не стоят ли два делиметера подряд и не один ли делиметр вообще
-int check_double_delim(char **arr)
+int	check_double_delim(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (ft_isdelim(arr[i]) && !arr[i + 1])

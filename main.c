@@ -27,8 +27,14 @@ int main(int argc, char **argv, char **env)
 		replace_dollar(&read_str, envp_list);
 
 		split_words = split_by_words(read_str); //Разбиваем строку на отдельные слова и спец символы
-
-		// print_array(split_words);
+		if (check_double_delim(split_words))
+		{
+			printf("syntax error near unexpected token `newline'");
+			free(read_str);
+			rl_clear_history();
+			exit(1);
+		}
+		print_array(split_words);
 		// com = make_struct(split_words); // логические разледители.
 	}
 	rl_clear_history();

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mariasavinova <mariasavinova@student.42    +#+  +:+       +#+         #
+#    By: marlean <marlean@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 15:12:33 by marlean           #+#    #+#              #
-#    Updated: 2022/06/06 17:41:04 by mariasavino      ###   ########.fr        #
+#    Updated: 2022/06/10 14:34:17 by marlean          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,11 @@ FILES_MS	=	main.c \
 				count_words.c \
 				list_utils.c \
 				make_struct.c \
+				make_struct_utils.c \
 				replace_dollar.c \
 				signal_handler.c \
 				split_by_words.c \
+				split_utils.c \
 				utils_draft.c \
 
 

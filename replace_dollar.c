@@ -21,26 +21,18 @@ char *change_dollar(char *str, int *num, t_envp *envp_list)
 	int i;
 	t_envp *tmp;
 
-	printf("we here\n");
 	n = *num;
 	rez = ft_substr(str, 0, ft_strlen(str));
 	tmp = envp_list;
 	head = ft_substr(rez, 0, n);
-	printf("head: |%s|\n", head);
 	i = n;
-	printf("i symb: |%c|\n", str[i]);
 	while (str[i] && ft_isalnum(str[i + 2]))
 		i++;
-	printf("UNTIL symb: |%c|\n", str[i]);
-
 	com = ft_substr(str, n + 1, i - n + 1);
-	printf("com: |%s|\n", com);
 	tail = ft_substr(str, i + 2, 1000);
-
 	com = subst_dollar(com, envp_list);
 	rez = ft_strjoin(head, com);
 	rez = ft_strjoin(rez, tail);
-	printf("rez = %s\n", rez);
 	envp_list = tmp;
 	str = rez;
 	*num = 0;
@@ -71,6 +63,5 @@ int replace_dollar(char **str, t_envp *envp_list)
 			count_double++;
 		i++;
 	}
-
 	return (0);
 }

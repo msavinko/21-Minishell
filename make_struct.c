@@ -1,125 +1,143 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   make_struct.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcherrie <mcherrie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/09 15:55:14 by mcherrie          #+#    #+#             */
+/*   Updated: 2022/06/09 17:17:02 by mcherrie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-t_com *com_new1(char *name, char **arg, int delim)
+t_com	*com_new1(char *name, char **arr, int delim, char *file)
 {
-	t_com *com;
+	t_com	*com;
+	int		i;
 
 	com = malloc(sizeof(t_com));
 	if (!com)
 		return (NULL);
-	com->name = name;
-	com->arg = arg;
+	com->name = ft_substr(name, 0, 100);
+	if (arr)
+	{
+		i = 0;
+		while (arr[i])
+			i++;
+		com->arg = malloc(sizeof(char *) * i + 1);
+		com->arg[i] = NULL;
+		i = -1;
+		while (arr[++i])
+			com->arg[i] = ft_substr(arr[i], 0, 100);
+	}
+	else
+		com->arg = NULL;
 	com->delim = delim;
+	com->file = ft_substr(file, 0, 100);
 	com->next = NULL;
 	return (com);
 }
 
-// void	com_add_back(t_com **lst, t_com *new) Сейчас она в draft, потом раскомментировать
-// {
-// 	t_com	*elem;
-
-// 	elem = *lst;
-// 	printf("add new list\n");
-// 	if (elem)
-// 	{
-// 		while (elem->next)
-// 			elem = elem->next;
-// 		elem->next = new;
-// 	}
-// 	else
-// 		*lst = new;
-// }
-
-int ft_isdelim(char *s)
+void	ft_one_name(t_com	**com)
 {
-	if (!ft_strncmp(s, "|", 1) || !ft_strncmp(s, "<", 1) || !ft_strncmp(s, ">", 1) ||
-		!ft_strncmp(s, "<<", 2) || !ft_strncmp(s, ">>", 2))
-		return (1);
-	else
-		return (0);
-}
-
-int delimetr(char *s)
-{
-	if (s[0] == '|')
-		return (1);
-	if (s[0] == '<' && s[1] == '0')
-		return (2);
-	if (s[0] == '>' && s[1] == '0')
-		return (3);
-	if (s[0] == '<' && s[1] == '<')
-		return (4);
-	if (s[0] == '>' && s[1] == '>')
-		return (5);
-	return (0);
-}
-
-void ft_lstprint(t_com **com)
-{
-	t_com *tmp;
+	t_com	*tmp;
+	int		first_name;
 
 	tmp = *com;
-	while (tmp->next != NULL)
+	first_name = 1;
+	while ((*com))
 	{
-		// printf("name = %s delim = %d\n", tmp->name, tmp->delim);
-		tmp = tmp->next;
+		if (first_name && (*com)->name != NULL)
+			first_name = 0;
+		else
+		{
+			printf("Check name = %s\n", (*com)->name);
+			add_first_str_in_arr(&(*com)->arg, (*com)->name);
+			(*com)->name = NULL;
+		}
+		if ((*com)->delim == 1)
+			first_name = 1;
+		(*com) = (*com)->next;
 	}
-	// printf("name = %s delim = %d\n", tmp->name, tmp->delim);
-	//	printf("name = %s args = %s delim = %d\n", tmp->name, tmp->arg[0], tmp->delim);
+	// if (!first_name)
+	// {
+	// 	add_first_str_in_arr(&(*com)->arg, (*com)->name);
+	// 	(*com)->name = NULL;
+	// }
+	*com = tmp;
 }
 
-int make_arg(char **arg, char **arr, int i)
+int	make_arg(char ***arg, char **arr, int i)
 {
-	int n;
-	int j;
-	// записывает нуль-детерминированный массив аргументоа и возвращает количество слов в нем
-	n = 0;
+	char	**tmp;
+	int		n;
+	int		j;
+
 	j = 0;
-	while (arr[i] && !ft_isdelim(arr[i++]))
-		n++;
-	// printf("n = %d\n", n);
-	arg = malloc(sizeof(char *) * n + 1);
-	i = i - n - 1;
-	while (j < n)
+	n = ft_n_words(arr, i);
+	if (n == 0)
 	{
-		//		printf("!!!arr[%d] = %s\n", i, arr[i]);
-		//		i++;
-		arg[j++] = ft_substr(arr[i++], 0, 100);
-		// printf("arg[%d] = %s\n", j - 1, arg[j - 1]);
+		*arg = NULL;
+		return (0);
 	}
-	arg[j] = NULL;
+	tmp = malloc(sizeof(char *) * (n + 1));
+	while (j < n)
+		tmp[j++] = ft_substr(arr[i++], 0, 100);
+	tmp[j] = NULL;
+	*arg = tmp;
 	return (n);
 }
 
-t_com *make_struct(char **arr)
+int	make_new_com(int i, char **arr, t_com	**new_com)
 {
-	t_com *com;
-	t_com *new_com;
-	char *name;
-	char **arg;
-	int delim;
-	int i;
+	char	*name;
+	char	**arg;
 
-	com = malloc(sizeof(t_com));
+	name = ft_substr(arr[i++], 0, 100);
+	i = i + make_arg(&arg, arr, i);
+	if (arr[i] && delimetr(arr[i]) > 1)
+	{
+		*new_com = com_new1(name, arg, delimetr(arr[i]), arr[i + 1]);
+		i = i + 2;
+	}
+	else if (arr[i] && delimetr(arr[i]) == 1)
+	{
+		i++;
+		*new_com = com_new1(name, arg, 1, 0);
+	}
+	else
+		*new_com = com_new1(name, arg, 0, 0);
+	return (i);
+}
+
+void	make_struct(char **arr, t_com	**com)
+{
+	t_com	*new_com;
+	int		i;
+
 	i = 0;
 	while (arr[i])
 	{
-		if (ft_isdelim(arr[i]))
-			new_com = com_new1(0, 0, delimetr(arr[i++]));
-		else
+		if (ft_isdelim(arr[i]) && arr[i][0] != '|')
 		{
-			name = arr[i++];
-			arg = 0;
-			delim = 0;
-			if (arr[i] && !ft_isdelim(arr[i]))
-				i = i + make_arg(arg, arr, i);
-			if (arr[i])
-				delim = delimetr(arr[i++]);
-			new_com = com_new1(name, arg, delim);
+			new_com = com_new1(NULL, NULL, delimetr(arr[i]), arr[i + 1]);
+			i += 2;
 		}
-		com_add_back(&com, new_com);
+		else if (ft_isdelim(arr[i]) && arr[i][0] == '|')
+		{
+			new_com = com_new1(0, 0, 1, 0);
+			i++;
+		}
+		else
+			i = make_new_com(i, arr, &new_com);
+		com_add_back(com, new_com);
 	}
-	com = com->next;
-	ft_lstprint(&com);
-	return (0);
+	*com = (*com)->next;
+//	ft_lstprint(com);
+	ft_one_name(com);
+	ft_lstprint(com);
 }
+//> 1 echo 333 | name 345 > 3 678 > 1 444 555 | name 666 >> 3 777
+//> 1 echo 333 | $PWD $SHELL > 3 "678 |  " > 1 444 '$PWD' | name " 666 $a 7" >> 3 777
