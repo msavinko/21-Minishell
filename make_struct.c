@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcherrie <mcherrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:55:14 by mcherrie          #+#    #+#             */
-/*   Updated: 2022/06/09 17:17:02 by mcherrie         ###   ########.fr       */
+/*   Updated: 2022/06/10 19:03:40 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	make_struct(char **arr, t_com	**com)
 	t_com	*new_com;
 	int		i;
 
+	*com = init_com();
 	i = 0;
 	while (arr[i])
 	{

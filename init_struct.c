@@ -29,3 +29,16 @@ t_words	*init_write_w(char *str)
 		exit(1);
 	return (write_w);
 }
+
+t_com	*init_com(void)
+{
+	t_com	*com;
+
+	com = malloc(sizeof(t_com));
+	com->name = NULL;
+	com->arg = NULL;
+	com->delim = 0;
+	com->file = NULL;
+	com->next = NULL;
+	return (com);
+}

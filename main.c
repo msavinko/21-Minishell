@@ -13,16 +13,10 @@ int main(int argc, char **argv, char **env)
 	split_words = NULL;
 	com = NULL;
 
-	com = malloc(sizeof(t_com));
-	com->name = NULL;
-	com->arg = NULL;
-	com->delim = 0;
-	com->file = NULL;
-	com->next = NULL;
+	
 	read_envp(env, &envp_list); // в envp_list записаны переменные окружения в односвязном списке
 	// read_commands(&com);		//ЗАГЛУШКА создан односвязный список из 3 листов (3 команды), изменять вручную
 	signal_handler(); //обработка сигналов
-
 	while (1)
 	{
 		read_str = read_the_line();
@@ -30,19 +24,20 @@ int main(int argc, char **argv, char **env)
 		{
 			add_history(read_str);
 			check_syntax(&read_str);
-		}
-		replace_dollar(&read_str, envp_list);
 
-		split_words = split_by_words(read_str); //Разбиваем строку на отдельные слова и спец символы
-		if (check_double_delim(split_words))
-		{
-			printf("syntax error near unexpected token `newline'");
-			free(read_str);
-			rl_clear_history();
-			exit(1);
+		// replace_dollar(&read_str, envp_list);
+
+		// split_words = split_by_words(read_str); //Разбиваем строку на отдельные слова и спец символы
+		// if (check_double_delim(split_words))
+		// {
+		// 	printf("syntax error near unexpected token `newline'");
+		// 	free(read_str);
+		// 	rl_clear_history();
+		// 	exit(1);
+		// }
+		// print_array(split_words);
+		// make_struct(split_words, &com); // логические разледители.
 		}
-		print_array(split_words);
-		make_struct(split_words, &com); // логические разледители.
 	}
 	rl_clear_history();
 	return (0);

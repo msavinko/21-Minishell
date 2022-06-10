@@ -6,7 +6,7 @@
 #    By: marlean <marlean@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 15:12:33 by marlean           #+#    #+#              #
-#    Updated: 2022/06/10 14:46:43 by marlean          ###   ########.fr        #
+#    Updated: 2022/06/10 20:01:31 by marlean          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,14 +24,16 @@ LIBFT	=	libft/libft.a
 
 FILES_MS	=	main.c \
 				check_syntax.c \
+				common_utils.c \
 				count_words.c \
+				free_all.c \
 				list_utils.c \
 				make_struct.c \
 				make_struct_utils.c \
 				replace_dollar.c \
 				signal_handler.c \
 				split_by_words.c \
-				split_utils.c \
+				init_struct.c \
 				utils_draft.c \
 
 

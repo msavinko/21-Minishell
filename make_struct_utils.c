@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_struct_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcherrie <mcherrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:00:15 by mcherrie          #+#    #+#             */
-/*   Updated: 2022/06/09 17:05:16 by mcherrie         ###   ########.fr       */
+/*   Updated: 2022/06/10 19:52:03 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,63 +24,6 @@ void	ft_copy_arr(char **arr_in, char **arr_out)
 	i = -1;
 	while (arr_out[++i])
 		arr_in[i] = ft_substr(arr_out[i], 0, 100);
-}
-
-int	ft_isdelim(char *s)
-{
-	if (!ft_strncmp(s, "|", 1) || !ft_strncmp(s, "<", 1) || \
-	!ft_strncmp(s, ">", 1) || !ft_strncmp(s, "<<", 2) || \
-	!ft_strncmp(s, ">>", 2))
-		return (1);
-	else
-		return (0);
-}
-
-int	delimetr(char *s)
-{
-	if (s[0] == '|')
-		return (1);
-	if (s[0] == '<' && s[1] == '\0')
-		return (2);
-	if (s[0] == '>' && s[1] == '\0')
-		return (3);
-	if (s[0] == '<' && s[1] == '<')
-		return (4);
-	if (s[0] == '>' && s[1] == '>')
-		return (5);
-	return (0);
-}
-
-void	ft_lstprint(t_com **com)
-{
-	t_com	*tmp;
-	int		i;
-
-	tmp = *com;
-	while ((*com))
-	{
-		i = 0;
-		printf("name = %s delim = %d file = %s\n", (*com)->name, (*com)->delim, (*com)->file);
-		if ((*com)->arg)
-		{
-			printf("OK\n");
-			while ((*com)->arg[i])
-			{
-				printf("arg[%d] = %s \n", i, (*com)->arg[i]);
-				i++;
-			}
-		}
-		*com = (*com)->next;
-	}
-	// printf("name = %s delim = %d file = %s\n", (*com)->name, (*com)->delim, (*com)->file);
-	// i = 0;
-	// if ((*com)->arg)
-	// 	while ((*com)->arg[i])
-	// 	{
-	// 		printf("arg[%d] = %s \n", i, (*com)->arg[i]);
-	// 		i++;
-	// 	}
-	*com = tmp;
 }
 
 int	ft_n_words(char **arr, int i)
@@ -124,4 +67,36 @@ void	add_first_str_in_arr(char ***arr, char *str)
 	else
 		ft_empty_arr(&tmp, str);
 	*arr = tmp;
+}
+
+void	ft_lstprint(t_com **com)
+{
+	t_com	*tmp;
+	int		i;
+
+	tmp = *com;
+	while ((*com))
+	{
+		i = 0;
+		printf("name = %s delim = %d file = %s\n", (*com)->name, (*com)->delim, (*com)->file);
+		if ((*com)->arg)
+		{
+			printf("OK\n");
+			while ((*com)->arg[i])
+			{
+				printf("arg[%d] = %s \n", i, (*com)->arg[i]);
+				i++;
+			}
+		}
+		*com = (*com)->next;
+	}
+	// printf("name = %s delim = %d file = %s\n", (*com)->name, (*com)->delim, (*com)->file);
+	// i = 0;
+	// if ((*com)->arg)
+	// 	while ((*com)->arg[i])
+	// 	{
+	// 		printf("arg[%d] = %s \n", i, (*com)->arg[i]);
+	// 		i++;
+	// 	}
+	*com = tmp;
 }

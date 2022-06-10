@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char *subst_dollar(char *com, t_envp *envp_list)
+char	*subst_dollar(char *com, t_envp *envp_list)
 {
 	while (envp_list)
 	{
@@ -11,44 +11,41 @@ char *subst_dollar(char *com, t_envp *envp_list)
 	return ("");
 }
 
-char *change_dollar(char *str, int *num, t_envp *envp_list)
+char	*change_dollar(char *str, int *num, t_envp *envp_list)
 {
-	int n;
-	char *rez;
-	char *head;
-	char *com;
-	char *tail;
-	int i;
-	t_envp *tmp;
+	int			n;
+	int			i;
+	t_envp		*tmp;
+	t_dollar	*doll;
 
+	doll = malloc(sizeof(t_dollar));
 	n = *num;
-	rez = ft_substr(str, 0, ft_strlen(str));
+	doll->rez = ft_substr(str, 0, ft_strlen(str));
 	tmp = envp_list;
-	head = ft_substr(rez, 0, n);
+	doll->head = ft_substr(doll->rez, 0, n);
 	i = n;
 	while (str[i] && ft_isalnum(str[i + 2]))
 		i++;
-	com = ft_substr(str, n + 1, i - n + 1);
-	tail = ft_substr(str, i + 2, 1000);
-	com = subst_dollar(com, envp_list);
-	rez = ft_strjoin(head, com);
-	rez = ft_strjoin(rez, tail);
+	doll->com = ft_substr(str, n + 1, i - n + 1);
+	doll->tail = ft_substr(str, i + 2, 1000);
+	doll->com = subst_dollar(doll->com, envp_list);
+	doll->rez = ft_strjoin(doll->head, doll->com);
+	doll->rez = ft_strjoin(doll->rez, doll->tail);
 	envp_list = tmp;
-	str = rez;
+	str = doll->rez;
 	*num = 0;
-	return (rez);
+	return (doll->rez);
 }
 
-int replace_dollar(char **str, t_envp *envp_list)
+int	replace_dollar(char **str, t_envp *envp_list)
 {
-	int count_one;
-	int count_double;
-	int i;
+	int	count_one;
+	int	count_double;
+	int	i;
 
 	count_one = 0;
 	count_double = 0;
 	i = 0;
-
 	while ((*str)[i])
 	{
 		if ((*str)[i] == '$' && count_one % 2 == 0)
