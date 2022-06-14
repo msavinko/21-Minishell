@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-void	ft_clear_struct(t_com **com)
+void ft_clear_struct(t_com **com)
 {
-	t_com	*tmp;
+	t_com *tmp;
 
 	if (com && *com)
 	{
@@ -11,35 +11,35 @@ void	ft_clear_struct(t_com **com)
 			tmp = (*com)->next;
 			if ((*com)->name)
 				free((*com)->name);
-				if ((*com)->arg)
-					ft_clear_arr((*com)->arg);
-				if ((*com)->file)
-					free((*com)->file);
-				free(*com);
-				*com = tmp;
-			}
+			if ((*com)->arg)
+				ft_clear_arr((*com)->arg);
+			if ((*com)->file)
+				free((*com)->file);
+			free(*com);
+			*com = tmp;
 		}
 	}
+}
 
-void	ft_clear_arr(char **arr)
+void ft_clear_arr(char **arr)
 {
 	int i;
 	i = 0;
-	if(arr)
+	if (arr)
 	{
 		while (arr[i])
 		{
 			free(arr[i]);
 			i++;
 		}
-		free (arr);
+		free(arr);
 	}
 }
 
-void	free_envp_list(t_envp *envp_list)
+void free_envp_list(t_envp *envp_list)
 {
 	if (!envp_list)
-		return ;
+		return;
 	while (envp_list)
 	{
 		if (envp_list->key)
@@ -50,4 +50,12 @@ void	free_envp_list(t_envp *envp_list)
 	}
 	free(envp_list);
 	envp_list = NULL;
+}
+
+void error_double_delim(char *read_str)
+{
+	printf("syntax error near unexpected token `newline'");
+	free(read_str);
+	rl_clear_history();
+	exit(1);
 }

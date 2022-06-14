@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   make_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mariasavinova <mariasavinova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:55:14 by mcherrie          #+#    #+#             */
-/*   Updated: 2022/06/10 19:03:40 by marlean          ###   ########.fr       */
+/*   Updated: 2022/06/14 12:58:44 by mariasavino      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_com	*com_new1(char *name, char **arr, int delim, char *file)
+t_com *com_new1(char *name, char **arr, int delim, char *file)
 {
-	t_com	*com;
-	int		i;
+	t_com *com;
+	int i;
 
 	com = malloc(sizeof(t_com));
 	if (!com)
@@ -40,10 +40,10 @@ t_com	*com_new1(char *name, char **arr, int delim, char *file)
 	return (com);
 }
 
-void	ft_one_name(t_com	**com)
+void ft_one_name(t_com **com)
 {
-	t_com	*tmp;
-	int		first_name;
+	t_com *tmp;
+	int first_name;
 
 	tmp = *com;
 	first_name = 1;
@@ -69,11 +69,11 @@ void	ft_one_name(t_com	**com)
 	*com = tmp;
 }
 
-int	make_arg(char ***arg, char **arr, int i)
+int make_arg(char ***arg, char **arr, int i)
 {
-	char	**tmp;
-	int		n;
-	int		j;
+	char **tmp;
+	int n;
+	int j;
 
 	j = 0;
 	n = ft_n_words(arr, i);
@@ -90,10 +90,10 @@ int	make_arg(char ***arg, char **arr, int i)
 	return (n);
 }
 
-int	make_new_com(int i, char **arr, t_com	**new_com)
+int make_new_com(int i, char **arr, t_com **new_com)
 {
-	char	*name;
-	char	**arg;
+	char *name;
+	char **arg;
 
 	name = ft_substr(arr[i++], 0, 100);
 	i = i + make_arg(&arg, arr, i);
@@ -112,10 +112,10 @@ int	make_new_com(int i, char **arr, t_com	**new_com)
 	return (i);
 }
 
-void	make_struct(char **arr, t_com	**com)
+void make_struct(char **arr, t_com **com)
 {
-	t_com	*new_com;
-	int		i;
+	t_com *new_com;
+	int i;
 
 	*com = init_com();
 	i = 0;
@@ -136,9 +136,8 @@ void	make_struct(char **arr, t_com	**com)
 		com_add_back(com, new_com);
 	}
 	*com = (*com)->next;
-//	ft_lstprint(com);
 	ft_one_name(com);
-	ft_lstprint(com);
+	// ft_lstprint(com);
 }
 //> 1 echo 333 | name 345 > 3 678 > 1 444 555 | name 666 >> 3 777
 //> 1 echo 333 | $PWD $SHELL > 3 "678 |  " > 1 444 '$PWD' | name " 666 $a 7" >> 3 777

@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-char	*write_redir(char *str, int *ind)
+char *write_redir(char *str, int *ind)
 {
-	char	*res;
-	int		i;
+	char *res;
+	int i;
 
 	i = 0;
 	if (str[i] == '>')
@@ -23,11 +23,11 @@ char	*write_redir(char *str, int *ind)
 	return (res);
 }
 
-int	count_space(char *str)
+int count_space(char *str)
 {
-	int	i;
-	int	count_one;
-	int	count_double;
+	int i;
+	int count_one;
+	int count_double;
 
 	i = 0;
 	count_one = 0;
@@ -45,9 +45,9 @@ int	count_space(char *str)
 	return (i);
 }
 
-char	*write_words(char *str, int *ind)
+char *write_words(char *str, int *ind)
 {
-	t_words	*write_w;
+	t_words *write_w;
 
 	write_w = init_write_w(str);
 	while (write_w->i < write_w->len)
@@ -65,15 +65,18 @@ char	*write_words(char *str, int *ind)
 	}
 	write_w->res[write_w->j] = '\0';
 	*ind += write_w->i;
+	free(write_w);
 	return (write_w->res);
 }
 
-char	**split_by_words(char *str)
+char **split_by_words(char *str)
 {
-	t_split	*split_w;
-	int		i;
-	int		j;
+	t_split *split_w;
+	int i;
+	int j;
+	char *tmp;
 
+	tmp = ft_strtrim(str, WHITE_SPACES);
 	split_w = init_split(str);
 	i = 0;
 	j = 0;
@@ -85,12 +88,18 @@ char	**split_by_words(char *str)
 			split_w->split_by_words[j++] = ft_substr(&str[i++], 0, 1);
 		else if (str[i] == '<' || str[i] == '>')
 			split_w->split_by_words[j++] = write_redir(&str[i], &i);
-		else if (str[i + 1] && (!ft_strncmp(&str[i], "\'\'", 2)
-				|| !ft_strncmp(&str[i], "\"\"", 2)))
+		else if (str[i + 1] && (!ft_strncmp(&str[i], "\'\'", 2) || !ft_strncmp(&str[i], "\"\"", 2)))
 			i += 2;
 		else
 			split_w->split_by_words[j++] = write_words(&str[i], &i);
 	}
 	split_w->split_by_words[j] = NULL;
+	if (tmp)
+		free(tmp);
+	if (split_w)
+		free(split_w);
 	return (split_w->split_by_words);
 }
+
+// hey lala $PWD$SHELL
+// hey $lala $1 $PWD kk''

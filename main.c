@@ -13,9 +13,8 @@ int main(int argc, char **argv, char **env)
 	split_words = NULL;
 	com = NULL;
 
-	
 	read_envp(env, &envp_list); // в envp_list записаны переменные окружения в односвязном списке
-	// read_commands(&com);		//ЗАГЛУШКА создан односвязный список из 3 листов (3 команды), изменять вручную
+	//  read_commands(&com);		//ЗАГЛУШКА создан односвязный список из 3 листов (3 команды), изменять вручную
 	signal_handler(); //обработка сигналов
 	while (1)
 	{
@@ -23,20 +22,19 @@ int main(int argc, char **argv, char **env)
 		if (ft_strlen(read_str) > 0)
 		{
 			add_history(read_str);
-			check_syntax(&read_str);
+			if (!check_syntax(read_str))
+			{
+				replace_dollar(&read_str, envp_list);
+				split_words = split_by_words(read_str); //Разбиваем строку на отдельные слова и спец символы
+			}
+			//    if (check_double_delim(split_words))
+			//	error_double_delim(read_str);
+			// print_array(split_words);
+			//    make_struct(split_words, &com); // логические разледители.
 
-		// replace_dollar(&read_str, envp_list);
-
-		// split_words = split_by_words(read_str); //Разбиваем строку на отдельные слова и спец символы
-		// if (check_double_delim(split_words))
-		// {
-		// 	printf("syntax error near unexpected token `newline'");
-		// 	free(read_str);
-		// 	rl_clear_history();
-		// 	exit(1);
-		// }
-		// print_array(split_words);
-		// make_struct(split_words, &com); // логические разледители.
+			ft_clear_arr(split_words);
+			// free(split_words);
+			free(read_str);
 		}
 	}
 	rl_clear_history();
