@@ -6,7 +6,7 @@
 #    By: marlean <marlean@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 15:12:33 by marlean           #+#    #+#              #
-#    Updated: 2022/06/10 20:01:31 by marlean          ###   ########.fr        #
+#    Updated: 2022/06/15 16:09:23 by marlean          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,24 +18,33 @@ HEADER_MS	=	minishell.h
 LIB_DIR	=	libft/
 LIBFT	=	libft/libft.a
 
-#подключение библиотеки readline к проекту
-# RL_INCLUDE	=	$(HOME)/.brew/Cellar/readline/8.1/include
-# RL_LIB		=	$(HOME)/.brew/Cellar/readline/8.1/lib
-
 FILES_MS	=	main.c \
+				built_command.c \
+				builtin_echo.c \
+				builtin_unset.c \
+				builtin_export.c \
+				builtin_exit.c \
+				builtin_pwd.c \
+				builtin_cd.c \
+				builtin_env.c \
 				check_syntax.c \
-				common_utils.c \
 				count_words.c \
-				free_all.c \
+				execute.c \
+				heredoc.c \
+				init_struct.c \
 				list_utils.c \
 				make_struct.c \
 				make_struct_utils.c \
+				pipex.c \
+				redirect.c \
 				replace_dollar.c \
 				signal_handler.c \
 				split_by_words.c \
-				init_struct.c \
+				utils_ex.c \
+				utils_free.c \
 				utils_draft.c \
-
+				utils_builtin.c \
+				utils_parse.c \
 
 
 OBJ_MS		=	$(FILES_MS:%.c=%.o)
@@ -52,12 +61,10 @@ libft	:
 #компиляция объектных файлов
 %.o	:	%.c  $(HEADER_MS) Makefile
 	cc $(FLAGS_MS) -I$(shell brew --prefix readline)/include -c $< -o $@ -I $(HEADER_MS)
-#	cc $(FLAGS_MS) -c $< -o $@
 
 #сборка исполняемого файла с подключением библиотеки 
 $(NAME_MS):	$(OBJ_MS)
 	cc $(FLAGS_MS) $(LIBFT) -L$(shell brew --prefix readline)/lib -lreadline $(OBJ_MS) -o $@
-#	cc $(FLAGS_MS) -L $(RL_LIB) -I $(RL_INCLUDE) -lreadline $(OBJ_MS) $(LIBFT) -o $@
 
 clean	:
 	rm -rf $(OBJ_MS)

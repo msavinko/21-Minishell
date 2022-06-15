@@ -77,21 +77,21 @@ char **split_by_words(char *str)
 	char *tmp;
 
 	tmp = ft_strtrim(str, WHITE_SPACES);
-	split_w = init_split(str);
+	split_w = init_split(tmp);
 	i = 0;
 	j = 0;
-	while (str[i])
+	while (tmp[i])
 	{
-		while (str[i] && ft_isspace(str[i]))
+		while (tmp[i] && ft_isspace(tmp[i]))
 			i++;
-		if (str[i] == '|')
-			split_w->split_by_words[j++] = ft_substr(&str[i++], 0, 1);
-		else if (str[i] == '<' || str[i] == '>')
-			split_w->split_by_words[j++] = write_redir(&str[i], &i);
-		else if (str[i + 1] && (!ft_strncmp(&str[i], "\'\'", 2) || !ft_strncmp(&str[i], "\"\"", 2)))
+		if (tmp[i] == '|')
+			split_w->split_by_words[j++] = ft_substr(&tmp[i++], 0, 1);
+		else if (tmp[i] == '<' || tmp[i] == '>')
+			split_w->split_by_words[j++] = write_redir(&tmp[i], &i);
+		else if (tmp[i + 1] && (!ft_strncmp(&tmp[i], "\'\'", 2) || !ft_strncmp(&tmp[i], "\"\"", 2)))
 			i += 2;
 		else
-			split_w->split_by_words[j++] = write_words(&str[i], &i);
+			split_w->split_by_words[j++] = write_words(&tmp[i], &i);
 	}
 	split_w->split_by_words[j] = NULL;
 	if (tmp)

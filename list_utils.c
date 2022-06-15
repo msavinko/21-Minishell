@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/13 10:53:59 by hcolumbu          #+#    #+#             */
+/*   Updated: 2022/06/15 13:28:57 by marlean          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*read_the_line(void)
@@ -7,7 +19,7 @@ char	*read_the_line(void)
 	read_str = readline("Myshell 🐚 ");
 	if (!read_str)
 	{
-		printf("exit");
+		printf("exit\n");
 		rl_clear_history();
 		exit(1);
 	}
@@ -17,13 +29,23 @@ char	*read_the_line(void)
 void	read_envp(char **env, t_envp **envp_list)
 {
 	int		i;
+	int		flag;
 	t_envp	*new;
 
 	i = 0;
+	flag = 0;
 	*envp_list = envp_new(env[i++]);
 	while (env[i])
 	{
-		new = envp_new(env[i++]);
+		if (!ft_strncmp(env[i], "EXIT_STATUS=", 12))
+			flag = 1;
+		new = envp_new(env[i]);
+		envp_add_front(envp_list, new);
+		i++;
+	}
+	if (!flag)
+	{
+		new = envp_new("EXIT_STATUS=0");
 		envp_add_front(envp_list, new);
 	}
 }

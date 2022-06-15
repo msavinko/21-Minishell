@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   make_struct.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mariasavinova <mariasavinova@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/09 15:55:14 by mcherrie          #+#    #+#             */
-/*   Updated: 2022/06/14 12:58:44 by mariasavino      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 t_com *com_new1(char *name, char **arr, int delim, char *file)
@@ -20,7 +8,8 @@ t_com *com_new1(char *name, char **arr, int delim, char *file)
 	com = malloc(sizeof(t_com));
 	if (!com)
 		return (NULL);
-	com->name = ft_substr(name, 0, 100);
+	com->name = ft_substr(name, 0, ft_strlen(name));
+	ft_free(name);
 	if (arr)
 	{
 		i = 0;
@@ -30,12 +19,16 @@ t_com *com_new1(char *name, char **arr, int delim, char *file)
 		com->arg[i] = NULL;
 		i = -1;
 		while (arr[++i])
-			com->arg[i] = ft_substr(arr[i], 0, 100);
+		{
+			com->arg[i] = ft_substr(arr[i], 0, ft_strlen(arr[i]));
+			ft_free(arr[i]);
+		}
 	}
 	else
 		com->arg = NULL;
 	com->delim = delim;
-	com->file = ft_substr(file, 0, 100);
+	com->file = ft_substr(file, 0, ft_strlen(file));
+	ft_free(file);
 	com->next = NULL;
 	return (com);
 }
@@ -53,7 +46,7 @@ void ft_one_name(t_com **com)
 			first_name = 0;
 		else
 		{
-			printf("Check name = %s\n", (*com)->name);
+			// printf("Check name = %s\n", (*com)->name);
 			add_first_str_in_arr(&(*com)->arg, (*com)->name);
 			(*com)->name = NULL;
 		}
@@ -66,6 +59,7 @@ void ft_one_name(t_com **com)
 	// 	add_first_str_in_arr(&(*com)->arg, (*com)->name);
 	// 	(*com)->name = NULL;
 	// }
+
 	*com = tmp;
 }
 
@@ -84,7 +78,11 @@ int make_arg(char ***arg, char **arr, int i)
 	}
 	tmp = malloc(sizeof(char *) * (n + 1));
 	while (j < n)
-		tmp[j++] = ft_substr(arr[i++], 0, 100);
+	{
+		tmp[j++] = ft_substr(arr[i], 0, ft_strlen(arr[i]));
+		ft_free(arr[i]);
+		i++;
+	}
 	tmp[j] = NULL;
 	*arg = tmp;
 	return (n);
@@ -95,7 +93,8 @@ int make_new_com(int i, char **arr, t_com **new_com)
 	char *name;
 	char **arg;
 
-	name = ft_substr(arr[i++], 0, 100);
+	name = ft_substr(arr[i], 0, ft_strlen(arr[i]));
+	i++;
 	i = i + make_arg(&arg, arr, i);
 	if (arr[i] && delimetr(arr[i]) > 1)
 	{
@@ -137,7 +136,13 @@ void make_struct(char **arr, t_com **com)
 	}
 	*com = (*com)->next;
 	ft_one_name(com);
-	// ft_lstprint(com);
+	ft_lstprint(com);
 }
-//> 1 echo 333 | name 345 > 3 678 > 1 444 555 | name 666 >> 3 777
-//> 1 echo 333 | $PWD $SHELL > 3 "678 |  " > 1 444 '$PWD' | name " 666 $a 7" >> 3 777
+// > 1 echo 333 | name 345 > 3 678 > 1 444 555 | name 666 >> 3 777
+
+// > 1 echo 333 name 345 > 3 678 > 1 444 555 name 666 >> 3 777
+
+//  1 echo 333 name 345 3 678 1 444 555 name 666 3 777
+
+// > 1 echo 333 | $PWD $SHELL > 3 "678 |  " > 1 444 '$PWD' | name " 666 $a 7" >> 3 777
+// cat lol.c | wc -l

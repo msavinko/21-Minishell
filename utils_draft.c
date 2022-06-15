@@ -1,20 +1,20 @@
 #include "minishell.h"
 
-void	read_commands(t_com **com)
-{
-	t_com	*new;
-	char	**arg;
+// void	read_commands(t_com **com)
+// {
+// 	t_com	*new;
+// 	char	**arg;
 
-	arg = (char **)malloc((15) * sizeof(char *));
-	arg[0] = "lol.c";
-	*com = com_new("cat", arg, PIPE);
-	arg[0] = "";
-	new = com_new("cat", arg, RIGH_SIN_REDIR);
-	com_add_back(com, new);
-	arg[0] = "";
-	new = com_new("lol.c", arg, 0);
-	com_add_back(com, new);
-}
+// 	arg = (char **)malloc((15) * sizeof(char *));
+// 	arg[0] = "lol.c";
+// 	*com = com_new("cat", arg, PIPE);
+// 	arg[0] = "";
+// 	new = com_new("cat", arg, RIGH_SIN_REDIR);
+// 	com_add_back(com, new);
+// 	arg[0] = "";
+// 	new = com_new("lol.c", arg, 0);
+// 	com_add_back(com, new);
+// }
 
 t_com	*com_new(char *name, char **arg, int delim)
 {

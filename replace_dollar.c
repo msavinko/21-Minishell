@@ -26,8 +26,7 @@ char *change_dollar(char *str, int *num, t_envp *envp_list)
 	tmp = envp_list;
 	tmp_str = doll->rez;
 	doll->head = ft_substr(doll->rez, 0, n);
-	if (tmp_str)
-		free(tmp_str);
+	ft_free(tmp_str);
 	i = n;
 	while (str[i] && ft_isalnum(str[i + 2]))
 		i++;
@@ -35,23 +34,34 @@ char *change_dollar(char *str, int *num, t_envp *envp_list)
 	doll->tail = ft_substr(str, i + 2, 1000);
 	tmp_str = doll->com;
 	doll->com = subst_dollar(doll->com, envp_list);
-	if (tmp_str)
-		free(tmp_str);
+	ft_free(tmp_str);
 	doll->rez = ft_strjoin(doll->head, doll->com);
 	tmp_str = doll->rez;
 	doll->rez = ft_strjoin(doll->rez, doll->tail);
-	if (tmp_str)
-		free(tmp_str);
+	ft_free(tmp_str);
 	envp_list = tmp;
 	str = doll->rez;
-	if (doll->head)
-		free(doll->head);
-	if (doll->tail)
-		free(doll->tail);
+	ft_free(doll->head);
+	ft_free(doll->tail);
 	if (doll)
 		free(doll);
 	*num = 0;
 	return (doll->rez);
+}
+
+void	dollar_redirect(char *str, int *num)
+{
+	int	i;
+	i = *num + 2;
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	if (str[i] == '$')
+	{
+		i++;
+		while (str[i] && ft_isalnum(str[i + 2]))
+			i++;
+	}
+	*num = i;
 }
 
 int replace_dollar(char **str, t_envp *envp_list)
@@ -66,6 +76,8 @@ int replace_dollar(char **str, t_envp *envp_list)
 	i = 0;
 	while ((*str)[i])
 	{
+		if ((*str)[i] == '<' && ((*str)[i + 1] && (*str)[i + 1] == '<'))
+			dollar_redirect(*str, &i);
 		if ((*str)[i] == '$' && count_one % 2 == 0)
 		{
 			if ((*str)[i + 1] && (*str)[i + 1] != '?')

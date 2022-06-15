@@ -20,7 +20,7 @@
 #define SIN_Q 1
 #define DOUB_Q 2
 
-int g_exit_code; // make sure it is a reasonable choice.
+int g_exit_status; // make sure it is a reasonable choice.
 
 typedef struct s_envp
 {
@@ -61,6 +61,18 @@ typedef struct s_dollar
 	char *com;
 	char *tail;
 } t_dollar;
+
+typedef struct s_exec
+{
+	char	*path;
+	char	**path_cmd;
+	char	**cmd_full;
+	char	*cmd_exec;
+	char	**env;
+	int		pipe_num;
+	int		infile;
+	int		outfile;
+}	t_exec;
 
 // list_utils.c
 char *read_the_line(void);
@@ -128,11 +140,48 @@ int ft_n_words(char **arr, int i);
 void ft_empty_arr(char ***tmp, char *str);
 void add_first_str_in_arr(char ***arr, char *str);
 
-// free_all.c
-void ft_clear_struct(t_com **com);
-void ft_clear_arr(char **arr);
-void free_envp_list(t_envp *envp_list);
-void error_double_delim(char *read_str);
+//*****************************************
+
+//		--- utils_free ---		//
+void	free_envp_list(t_envp *envp_list);
+void	free_com_list(t_com *com);
+void	free_array(char **array);
+void	ft_free(char *str);
+
+//		--- utils_builtin ---		//
+int		print_env_declare(t_envp *envp_list);
+int		var_position_in_envp(t_envp *envp_list, char *str);
+int		put_value_to_envp(t_envp *envp_list, char *key, char *new_value);
+char	*get_value_from_envp(t_envp *envp_list, char *str);
+void	add_var_to_envp_list(t_envp **envp_list, char **array, char *str);
+
+int		builtin_export(t_com *com, t_envp **envp_list);
+int		builtin_unset(t_com *com, t_envp **envp_list);
+// void	builtin_exit(t_com *com, t_envp *envp_list);
+void	builtin_exit(t_com *com);
+int		builtin_cd(t_com *com, t_envp *envp_list);
+int		builtin_pwd(t_envp *envp_list);
+int		builtin_env(t_envp *envp_list);
+int		builtin_echo(t_com *com);
+
+int		heredoc(t_com *com);
+
+//Executor//
+void	execute(t_com *com, t_envp **envp_list);
+void	executor(t_com *com, t_envp **envp_list, t_exec *exec);
+void	pipe_handler(t_com *com, t_envp **envp_list, t_exec *exec);
+void	pipex(t_com *com, t_envp **envp_list, t_exec *exec);
+void	get_env(t_envp *envp_list, t_exec *exec);
+void	make_full_com(t_com *com, t_exec *exec);
+void	check_cmd(t_com *com, t_exec *exec);
+void	redirect_handler(t_com *com);
+
+int		envsize(t_envp *lst);
+int		lstsize(t_com *lst);
+void	show_error(char *error);
+int		count_array(t_com *com);
+int		count_pipes(t_com *com);
+
 
 #endif
 
