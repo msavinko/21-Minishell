@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-void	free_envp_list(t_envp *envp_list)
+void free_envp_list(t_envp *envp_list)
 {
 	if (!envp_list)
-		return ;
+		return;
 	while (envp_list)
 	{
 		if (envp_list->key)
@@ -16,42 +16,45 @@ void	free_envp_list(t_envp *envp_list)
 	envp_list = NULL;
 }
 
-void	free_com_list(t_com *com)
+void free_com_list(t_com *com)
 {
-	int	i;
-
-	if (!com)
-		return ;
-	while (com)
+	t_com *tmp;
+	if (com)
 	{
-		i = 0;
-		while (com->arg[i])
-			free(com->arg[i++]);
-		if (com->arg)
-			free(com->arg);
-		com = com->next;
+		while (com)
+		{
+			tmp = com->next;
+			if (com->name)
+				free(com->name);
+			if (com->arg)
+				free_array(com->arg);
+			if (com->file)
+				free(com->file);
+			com = tmp;
+		}
+		if (com)
+			free(com);
 	}
-	free(com);
-	com = NULL;
 }
-
-void	free_array(char **array)
+void free_array(char **arr)
 {
-	int	i;
-
+	int i;
 	i = 0;
-	if (!array)
-		return ;
-	while (array[i])
+	if (arr)
 	{
-		free(array[i]);
-		i++;
+		if (arr[i])
+		{
+			while (arr[i])
+			{
+				free(arr[i]);
+				i++;
+			}
+		}
+		free(arr);
 	}
-	free(array);
-	array = NULL;
 }
 
-void	ft_free(char *str)
+void ft_free(char *str)
 {
 	if (str)
 		free(str);

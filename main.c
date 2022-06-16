@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void	check_args(int argc, char **argv)
+static void check_args(int argc, char **argv)
 {
 	// Если будет свободное время, можно реализовать в этой функции исполнение файлов
 	// Настоящая оболочка пробует открыть файл, название которого подано как аргумент
@@ -13,7 +13,7 @@ static void	check_args(int argc, char **argv)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(argv[1], 2);
 		ft_putendl_fd(": No such file or directory", 2);
-		exit (1);
+		exit(1);
 	}
 }
 
@@ -29,7 +29,7 @@ int main(int argc, char **argv, char **env)
 	split_words = NULL;
 	com = NULL;
 	read_envp(env, &envp_list); // в envp_list записаны переменные окружения в односвязном списке
-	signal_handler(); //обработка сигналов
+	signal_handler();			//обработка сигналов
 	while (1)
 	{
 		signal_handler(); //обработка сигналов
@@ -47,12 +47,12 @@ int main(int argc, char **argv, char **env)
 						printf("syntax error near unexpected token `newline'\n");
 					print_array(split_words);
 					make_struct(split_words, &com); // логические разледители.
-					if (com)
-						execute(com, &envp_list);
+													//  if (com)
+													//	execute(com, &envp_list);
 				}
 			}
-			
-			// free_com_list(com);
+
+			free_com_list(com);
 			free_array(split_words);
 			free(read_str);
 		}
@@ -71,19 +71,21 @@ void print_array(char **arr)
 	}
 }
 
+// hey >> lol  - SEGA
+// hey
+//  "/bin/ls"
+//  cat lol.c
+//  cat lol.c > 1
+//  cat lol.c >> 1
+//  cat lol.c > 1 | wc
+//  cat < lol.c
+//  cat < lol.c | ls
+//  cat < lol.c | cat
+//  ls -a | wc -l
+//  ls | wc -l
+//  cat lol.c > 1 2 3 > 4
 
-//hey >> lol  - SEGA
-//hey
-// "/bin/ls"
-// cat lol.c
-// cat lol.c > 1
-// cat lol.c >> 1
-// cat lol.c > 1 | wc
-// cat < lol.c
-// cat < lol.c | ls
-// cat < lol.c | cat
-// ls -a | wc -l
-// ls | wc -l
-// cat lol.c > 1 2 3 > 4
+// cat lol.c | wc -l
+// > 1 echo 333 | name 345 > 3 678 > 1 444 555 | name 666 >> 3 777
 
 // export PATH=/Users/marlean/.brew/bin:/Users/marlean/CMake.app/Contents/bin:/Users/marlean/CMake.app/Contents/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/opt/X11/bin:/bin/ls

@@ -40,3 +40,18 @@ t_com *init_com(void)
 	com->next = NULL;
 	return (com);
 }
+
+t_dollar *init_doll(void)
+{
+	t_dollar *doll;
+
+	doll = malloc(sizeof(t_dollar));
+	doll->tmp = NULL;
+	doll->count_one = 0;
+	doll->count_double = 0;
+	doll->rez = NULL;
+	doll->head = NULL;
+	doll->com = NULL;
+	doll->tail = NULL;
+	return (doll);
+}

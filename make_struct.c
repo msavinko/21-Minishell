@@ -28,7 +28,7 @@ t_com *com_new1(char *name, char **arr, int delim, char *file)
 		com->arg = NULL;
 	com->delim = delim;
 	com->file = ft_substr(file, 0, ft_strlen(file));
-	ft_free(file);
+	// ft_free(file);
 	com->next = NULL;
 	return (com);
 }
@@ -59,7 +59,6 @@ void ft_one_name(t_com **com)
 	// 	add_first_str_in_arr(&(*com)->arg, (*com)->name);
 	// 	(*com)->name = NULL;
 	// }
-
 	*com = tmp;
 }
 
@@ -80,7 +79,7 @@ int make_arg(char ***arg, char **arr, int i)
 	while (j < n)
 	{
 		tmp[j++] = ft_substr(arr[i], 0, ft_strlen(arr[i]));
-		ft_free(arr[i]);
+		// ft_free(arr[i]);
 		i++;
 	}
 	tmp[j] = NULL;
@@ -94,6 +93,7 @@ int make_new_com(int i, char **arr, t_com **new_com)
 	char **arg;
 
 	name = ft_substr(arr[i], 0, ft_strlen(arr[i]));
+	// free(arr[i]);
 	i++;
 	i = i + make_arg(&arg, arr, i);
 	if (arr[i] && delimetr(arr[i]) > 1)
@@ -145,4 +145,3 @@ void make_struct(char **arr, t_com **com)
 //  1 echo 333 name 345 3 678 1 444 555 name 666 3 777
 
 // > 1 echo 333 | $PWD $SHELL > 3 "678 |  " > 1 444 '$PWD' | name " 666 $a 7" >> 3 777
-// cat lol.c | wc -l

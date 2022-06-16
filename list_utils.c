@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mariasavinova <mariasavinova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 10:53:59 by hcolumbu          #+#    #+#             */
-/*   Updated: 2022/06/15 13:28:57 by marlean          ###   ########.fr       */
+/*   Updated: 2022/06/16 12:08:23 by mariasavino      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*read_the_line(void)
+char *read_the_line(void)
 {
-	char	*read_str;
+	char *read_str;
 
 	read_str = readline("Myshell 🐚 ");
 	if (!read_str)
@@ -26,11 +26,11 @@ char	*read_the_line(void)
 	return (read_str);
 }
 
-void	read_envp(char **env, t_envp **envp_list)
+void read_envp(char **env, t_envp **envp_list)
 {
-	int		i;
-	int		flag;
-	t_envp	*new;
+	int i;
+	int flag;
+	t_envp *new;
 
 	i = 0;
 	flag = 0;
@@ -50,11 +50,11 @@ void	read_envp(char **env, t_envp **envp_list)
 	}
 }
 
-t_envp	*envp_new(char *content)
+t_envp *envp_new(char *content)
 {
-	t_envp	*envp;
-	int		i;
-	int		len;
+	t_envp *envp;
+	int i;
+	int len;
 
 	i = 0;
 	envp = malloc(sizeof(t_envp));
@@ -73,7 +73,7 @@ t_envp	*envp_new(char *content)
 	return (envp);
 }
 
-void	envp_add_front(t_envp **lst, t_envp *new)
+void envp_add_front(t_envp **lst, t_envp *new)
 {
 	if (lst && new)
 	{

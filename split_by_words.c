@@ -94,8 +94,7 @@ char **split_by_words(char *str)
 			split_w->split_by_words[j++] = write_words(&tmp[i], &i);
 	}
 	split_w->split_by_words[j] = NULL;
-	if (tmp)
-		free(tmp);
+	ft_free(tmp);
 	if (split_w)
 		free(split_w);
 	return (split_w->split_by_words);

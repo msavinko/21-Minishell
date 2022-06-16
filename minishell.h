@@ -56,6 +56,9 @@ typedef struct s_split
 
 typedef struct s_dollar
 {
+	char *tmp;
+	int count_one;
+	int count_double;
 	char *rez;
 	char *head;
 	char *com;
@@ -64,15 +67,15 @@ typedef struct s_dollar
 
 typedef struct s_exec
 {
-	char	*path;
-	char	**path_cmd;
-	char	**cmd_full;
-	char	*cmd_exec;
-	char	**env;
-	int		pipe_num;
-	int		infile;
-	int		outfile;
-}	t_exec;
+	char *path;
+	char **path_cmd;
+	char **cmd_full;
+	char *cmd_exec;
+	char **env;
+	int pipe_num;
+	int infile;
+	int outfile;
+} t_exec;
 
 // list_utils.c
 char *read_the_line(void);
@@ -106,14 +109,16 @@ char **split_by_words(char *str);
 t_split *init_split(char *str);
 t_words *init_write_w(char *str);
 t_com *init_com(void);
+t_dollar *init_doll(void);
 
 void print_array(char **arr);
 
 //******************************************************************************
 
-// common_utils.c
+// utils_parse.c
 int ft_isdelim(char *s);
 int delimetr(char *s);
+void dollar_redirect(char *str, int *num);
 
 // check_sytax.c
 int ft_check_eve_quotes(char *str);
@@ -122,8 +127,10 @@ int check_syntax(char *str);
 int check_double_delim(char **arr);
 
 // replace_dollar.c
+void change_dollar1(t_dollar *doll, char *str);
 char *subst_dollar(char *com, t_envp *envp_list);
-char *change_dollar(char *str, int *num, t_envp *envp_list);
+char *change_dollar(t_dollar *doll, char *str, int *num, t_envp *envp_list);
+void replace_dollar1(t_dollar *doll, int *ind, char **str, t_envp *envp_list);
 int replace_dollar(char **str, t_envp *envp_list);
 
 // make_struct.c
@@ -143,45 +150,44 @@ void add_first_str_in_arr(char ***arr, char *str);
 //*****************************************
 
 //		--- utils_free ---		//
-void	free_envp_list(t_envp *envp_list);
-void	free_com_list(t_com *com);
-void	free_array(char **array);
-void	ft_free(char *str);
+void free_envp_list(t_envp *envp_list);
+void free_com_list(t_com *com);
+void free_array(char **array);
+void ft_free(char *str);
 
 //		--- utils_builtin ---		//
-int		print_env_declare(t_envp *envp_list);
-int		var_position_in_envp(t_envp *envp_list, char *str);
-int		put_value_to_envp(t_envp *envp_list, char *key, char *new_value);
-char	*get_value_from_envp(t_envp *envp_list, char *str);
-void	add_var_to_envp_list(t_envp **envp_list, char **array, char *str);
+int print_env_declare(t_envp *envp_list);
+int var_position_in_envp(t_envp *envp_list, char *str);
+int put_value_to_envp(t_envp *envp_list, char *key, char *new_value);
+char *get_value_from_envp(t_envp *envp_list, char *str);
+void add_var_to_envp_list(t_envp **envp_list, char **array, char *str);
 
-int		builtin_export(t_com *com, t_envp **envp_list);
-int		builtin_unset(t_com *com, t_envp **envp_list);
+int builtin_export(t_com *com, t_envp **envp_list);
+int builtin_unset(t_com *com, t_envp **envp_list);
 // void	builtin_exit(t_com *com, t_envp *envp_list);
-void	builtin_exit(t_com *com);
-int		builtin_cd(t_com *com, t_envp *envp_list);
-int		builtin_pwd(t_envp *envp_list);
-int		builtin_env(t_envp *envp_list);
-int		builtin_echo(t_com *com);
+void builtin_exit(t_com *com);
+int builtin_cd(t_com *com, t_envp *envp_list);
+int builtin_pwd(t_envp *envp_list);
+int builtin_env(t_envp *envp_list);
+int builtin_echo(t_com *com);
 
-int		heredoc(t_com *com);
+int heredoc(t_com *com);
 
-//Executor//
-void	execute(t_com *com, t_envp **envp_list);
-void	executor(t_com *com, t_envp **envp_list, t_exec *exec);
-void	pipe_handler(t_com *com, t_envp **envp_list, t_exec *exec);
-void	pipex(t_com *com, t_envp **envp_list, t_exec *exec);
-void	get_env(t_envp *envp_list, t_exec *exec);
-void	make_full_com(t_com *com, t_exec *exec);
-void	check_cmd(t_com *com, t_exec *exec);
-void	redirect_handler(t_com *com);
+// Executor//
+void execute(t_com *com, t_envp **envp_list);
+void executor(t_com *com, t_envp **envp_list, t_exec *exec);
+void pipe_handler(t_com *com, t_envp **envp_list, t_exec *exec);
+void pipex(t_com *com, t_envp **envp_list, t_exec *exec);
+void get_env(t_envp *envp_list, t_exec *exec);
+void make_full_com(t_com *com, t_exec *exec);
+void check_cmd(t_com *com, t_exec *exec);
+void redirect_handler(t_com *com);
 
-int		envsize(t_envp *lst);
-int		lstsize(t_com *lst);
-void	show_error(char *error);
-int		count_array(t_com *com);
-int		count_pipes(t_com *com);
-
+int envsize(t_envp *lst);
+int lstsize(t_com *lst);
+void show_error(char *error);
+int count_array(t_com *com);
+int count_pipes(t_com *com);
 
 #endif
 
