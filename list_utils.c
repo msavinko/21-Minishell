@@ -3,58 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariasavinova <mariasavinova@student.42    +#+  +:+       +#+        */
+/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 10:53:59 by hcolumbu          #+#    #+#             */
-/*   Updated: 2022/06/16 12:08:23 by mariasavino      ###   ########.fr       */
+/*   Updated: 2022/06/17 11:52:06 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *read_the_line(void)
+char	*read_the_line(void)
 {
-	char *read_str;
+	char	*read_str;
 
 	read_str = readline("Myshell 🐚 ");
 	if (!read_str)
 	{
-		printf("exit\n");
+		ft_putendl_fd("exit", 2);
 		rl_clear_history();
 		exit(1);
 	}
 	return (read_str);
 }
 
-void read_envp(char **env, t_envp **envp_list)
+void	read_envp(char **env, t_envp **envp_list)
 {
-	int i;
-	int flag;
-	t_envp *new;
+	int		i;
+	t_envp	*new;
 
 	i = 0;
-	flag = 0;
 	*envp_list = envp_new(env[i++]);
 	while (env[i])
 	{
-		if (!ft_strncmp(env[i], "EXIT_STATUS=", 12))
-			flag = 1;
-		new = envp_new(env[i]);
-		envp_add_front(envp_list, new);
-		i++;
-	}
-	if (!flag)
-	{
-		new = envp_new("EXIT_STATUS=0");
+		new = envp_new(env[i++]);
 		envp_add_front(envp_list, new);
 	}
 }
 
-t_envp *envp_new(char *content)
+t_envp	*envp_new(char *content)
 {
-	t_envp *envp;
-	int i;
-	int len;
+	t_envp	*envp;
+	int		len;
+	int		i;
 
 	i = 0;
 	envp = malloc(sizeof(t_envp));
@@ -73,11 +63,26 @@ t_envp *envp_new(char *content)
 	return (envp);
 }
 
-void envp_add_front(t_envp **lst, t_envp *new)
+void	envp_add_front(t_envp **lst, t_envp *new)
 {
 	if (lst && new)
 	{
 		new->next = *lst;
 		*lst = new;
 	}
+}
+
+void	com_add_back(t_com **lst, t_com *new)
+{
+	t_com	*elem;
+
+	elem = *lst;
+	if (elem)
+	{
+		while (elem->next)
+			elem = elem->next;
+		elem->next = new;
+	}
+	else
+		*lst = new;
 }

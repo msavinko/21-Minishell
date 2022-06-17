@@ -6,18 +6,11 @@
 /*   By: rdanyell <rdanyell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 16:15:18 by rdanyell          #+#    #+#             */
-/*   Updated: 2022/06/09 16:16:47 by rdanyell         ###   ########.fr       */
+/*   Updated: 2022/06/17 13:26:02 by rdanyell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	show_error(char *error)
-{
-	write(2, "/minishell: ", 13);
-	perror(error);
-	exit (1);
-}
 
 int	lstsize(t_com *lst)
 {

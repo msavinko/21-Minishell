@@ -1,91 +1,71 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 16:18:54 by rdanyell          #+#    #+#             */
+/*   Updated: 2022/06/17 13:26:17 by marlean          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static void check_args(int argc, char **argv)
+static void	check_args(int argc, char **argv)
 {
-	// Если будет свободное время, можно реализовать в этой функции исполнение файлов
-	// Настоящая оболочка пробует открыть файл, название которого подано как аргумент
-	// Ожидается, что это будет bash script
-	// То есть содержимое файла исполняется строчка за строчкой сверху вниз
-	// В качестве примера - скрипт для освобождения кэш-памяти: bash ./clean.sh
-	// А пока такая вот заглушка:
 	if (argc > 1)
 	{
-		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("Myshell 🐚: ", 2);
 		ft_putstr_fd(argv[1], 2);
 		ft_putendl_fd(": No such file or directory", 2);
-		exit(1);
+		exit(127);
 	}
 }
 
-int main(int argc, char **argv, char **env)
+void	parse_and_execute(t_envp **envp_list, t_com *com, char **split_words)
 {
-	t_envp *envp_list;
-	t_com *com;
-	char *read_str;
-	char **split_words;
+	char	*read_str;
+
+	read_str = read_the_line();
+	if (ft_strlen(read_str) > 0)
+	{
+		add_history(read_str);
+		if (!check_syntax(read_str))
+		{
+			replace_dollar(&read_str, *envp_list);
+			split_words = split_by_words(read_str);
+			if (split_words != NULL && split_words[0] != NULL)
+			{
+				if (check_double_delim(split_words))
+					ft_putendl_fd("syntax error near \
+									unexpected token `newline'", 2);
+				make_struct(split_words, &com);
+				if (com)
+					execute(com, envp_list);
+			}
+		}
+		ft_free_com_list(&com);
+		free_array(split_words);
+		free(read_str);
+	}
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	char	**split_words;
+	t_envp	*envp_list;
+	t_com	*com;
 
 	check_args(argc, argv);
-	envp_list = NULL;
+	g_exit_status = 0;
 	split_words = NULL;
+	envp_list = NULL;
 	com = NULL;
-	read_envp(env, &envp_list); // в envp_list записаны переменные окружения в односвязном списке
-	signal_handler();			//обработка сигналов
+	read_envp(env, &envp_list);
+	signal_handler();
 	while (1)
-	{
-		signal_handler(); //обработка сигналов
-		read_str = read_the_line();
-		if (ft_strlen(read_str) > 0)
-		{
-			add_history(read_str);
-			if (!check_syntax(read_str))
-			{
-				replace_dollar(&read_str, envp_list);
-				split_words = split_by_words(read_str); //Разбиваем строку на отдельные слова и спец символы
-				if (split_words != NULL && split_words[0] != NULL)
-				{
-					if (check_double_delim(split_words))
-						printf("syntax error near unexpected token `newline'\n");
-					print_array(split_words);
-					make_struct(split_words, &com); // логические разледители.
-													//  if (com)
-													//	execute(com, &envp_list);
-				}
-			}
-
-			free_com_list(com);
-			free_array(split_words);
-			free(read_str);
-		}
-	}
+		parse_and_execute(&envp_list, com, split_words);
 	rl_clear_history();
 	return (0);
 }
-
-void print_array(char **arr)
-{
-	int i = 0;
-	while (arr[i] != NULL)
-	{
-		printf("string %d: %s\n", i, arr[i]);
-		i++;
-	}
-}
-
-// hey >> lol  - SEGA
-// hey
-//  "/bin/ls"
-//  cat lol.c
-//  cat lol.c > 1
-//  cat lol.c >> 1
-//  cat lol.c > 1 | wc
-//  cat < lol.c
-//  cat < lol.c | ls
-//  cat < lol.c | cat
-//  ls -a | wc -l
-//  ls | wc -l
-//  cat lol.c > 1 2 3 > 4
-
-// cat lol.c | wc -l
-// > 1 echo 333 | name 345 > 3 678 > 1 444 555 | name 666 >> 3 777
-
-// export PATH=/Users/marlean/.brew/bin:/Users/marlean/CMake.app/Contents/bin:/Users/marlean/CMake.app/Contents/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/opt/X11/bin:/bin/ls

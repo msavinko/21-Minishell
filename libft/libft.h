@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rdanyell <rdanyell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 17:14:31 by marlean           #+#    #+#             */
-/*   Updated: 2022/06/15 12:15:48 by marlean          ###   ########.fr       */
+/*   Updated: 2022/06/16 15:56:50 by rdanyell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		ft_isalpha(int ch);
 int		ft_isascii(int ch);
 int		ft_isdigit(int ch);
 int		ft_isprint(int ch);
-char	*ft_itoa(long int num);
+char	*ft_itoa(int ncd);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 void	*ft_memcpy(void *dest, const void *source, size_t n);

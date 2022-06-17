@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marlean <marlean@student.42.fr>            +#+  +:+       +#+         #
+#    By: rdanyell <rdanyell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 15:12:33 by marlean           #+#    #+#              #
-#    Updated: 2022/06/15 16:09:23 by marlean          ###   ########.fr        #
+#    Updated: 2022/06/16 16:21:48 by rdanyell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,9 +42,9 @@ FILES_MS	=	main.c \
 				split_by_words.c \
 				utils_ex.c \
 				utils_free.c \
-				utils_draft.c \
 				utils_builtin.c \
 				utils_parse.c \
+				utils_pipex.c \
 
 
 OBJ_MS		=	$(FILES_MS:%.c=%.o)

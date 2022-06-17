@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   make_struct_utils.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 16:18:54 by rdanyell          #+#    #+#             */
+/*   Updated: 2022/06/17 12:31:37 by marlean          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void ft_copy_arr(char **arr_in, char **arr_out)
+void	ft_copy_arr(char **arr_in, char **arr_out)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arr_out[i])
@@ -11,15 +23,12 @@ void ft_copy_arr(char **arr_in, char **arr_out)
 	arr_in[i] = NULL;
 	i = -1;
 	while (arr_out[++i])
-	{
 		arr_in[i] = ft_substr(arr_out[i], 0, ft_strlen(arr_out[i]));
-		// ft_free(arr_out[i]);
-	}
 }
 
-int ft_n_words(char **arr, int i)
+int	ft_n_words(char **arr, int i)
 {
-	int n;
+	int	n;
 
 	n = 0;
 	while (arr[i] && !ft_isdelim(arr[i++]))
@@ -27,7 +36,7 @@ int ft_n_words(char **arr, int i)
 	return (n);
 }
 
-void ft_empty_arr(char ***tmp, char *str)
+void	ft_empty_arr(char ***tmp, char *str)
 {
 	*tmp = (char **)malloc(sizeof(char *) * 2);
 	(*tmp)[0] = ft_substr(str, 0, ft_strlen(str));
@@ -35,10 +44,10 @@ void ft_empty_arr(char ***tmp, char *str)
 	(*tmp)[1] = NULL;
 }
 
-void add_first_str_in_arr(char ***arr, char *str)
+void	add_first_str_in_arr(char ***arr, char *str)
 {
-	char **tmp;
-	int i;
+	char	**tmp;
+	int		i;
 
 	i = 0;
 	if (*arr)
@@ -59,39 +68,29 @@ void add_first_str_in_arr(char ***arr, char *str)
 	}
 	else
 		ft_empty_arr(&tmp, str);
-	// free_array(*arr);
 	free(*arr);
 	*arr = tmp;
 }
 
-void ft_lstprint(t_com **com)
+void	ft_one_name(t_com **com)
 {
-	t_com *tmp;
-	int i;
+	t_com	*tmp;
+	int		first_name;
 
 	tmp = *com;
+	first_name = 1;
 	while ((*com))
 	{
-		i = 0;
-		printf("name = %s delim = %d file = %s\n", (*com)->name, (*com)->delim, (*com)->file);
-		if ((*com)->arg)
+		if (first_name && (*com)->name != NULL)
+			first_name = 0;
+		else
 		{
-			printf("OK\n");
-			while ((*com)->arg[i])
-			{
-				printf("arg[%d] = %s \n", i, (*com)->arg[i]);
-				i++;
-			}
+			add_first_str_in_arr(&(*com)->arg, (*com)->name);
+			(*com)->name = NULL;
 		}
-		*com = (*com)->next;
+		if ((*com)->delim == 1)
+			first_name = 1;
+		(*com) = (*com)->next;
 	}
-	// printf("name = %s delim = %d file = %s\n", (*com)->name, (*com)->delim, (*com)->file);
-	// i = 0;
-	// if ((*com)->arg)
-	// 	while ((*com)->arg[i])
-	// 	{
-	// 		printf("arg[%d] = %s \n", i, (*com)->arg[i]);
-	// 		i++;
-	// 	}
 	*com = tmp;
 }

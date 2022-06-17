@@ -14,12 +14,18 @@
 
 static void	print_to_string_from_array(char **array, int i)
 {
+	char	*tmp;
+
 	while (array[i])
 	{
 		if (!ft_strcmp(array[i], "$?"))
-			// array[i] = get_value_from_envp(envp_list, "EXIT_STATUS");
-			array[i] = ft_itoa(g_exit_status);
-		ft_putstr_fd(array[i], 1);
+		{
+			tmp = ft_itoa(g_exit_status);
+			ft_putstr_fd(tmp, 1);
+			ft_free(tmp);
+		}
+		else
+			ft_putstr_fd(array[i], 1);
 		if (array[i + 1])
 			ft_putchar_fd(' ', 1);
 		i++;

@@ -19,8 +19,6 @@ int	builtin_env(t_envp *envp_list)
 	if (var_position_in_envp(envp_list, "PATH") == -1)
 	{
 		ft_putendl_fd("Myshell 🐚: env: No such file or directory", 2);
-		// put_value_to_envp(envp_list, "EXIT_STATUS", "127");
-		// g_exit_status = 127;
 		return (127);
 	}
 	while (envp_list)

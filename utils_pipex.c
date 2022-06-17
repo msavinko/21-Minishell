@@ -1,41 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rdanyell <rdanyell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/20 10:42:38 by marlean           #+#    #+#             */
-/*   Updated: 2022/06/16 15:56:43 by rdanyell         ###   ########.fr       */
+/*   Created: 2022/06/15 17:18:58 by rdanyell          #+#    #+#             */
+/*   Updated: 2022/06/16 13:42:00 by rdanyell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+void	std_out_close(int save_stdout)
 {
-	char	*join;
-	size_t	i;
-	size_t	j;
+	close(0);
+	dup2(save_stdout, 0);
+	close(save_stdout);
+}
 
-	i = 0;
-	j = 0;
-	if (!s1 || !s2)
-		return (NULL);
-	join = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!join)
-		return (NULL);
-	while (i < ft_strlen(s1))
+void	pipe_close(t_com *com, int fd0, int fd1)
+{
+	if (com->next)
 	{
-		join[i] = s1[i];
-		i++;
+		dup2(fd0, 0);
+		close(fd0);
+		close(fd1);
 	}
-	while (j < ft_strlen(s2))
-	{
-		join[i] = s2[j];
-		i++;
-		j++;
-	}
-	join[i] = '\0';
-	return (join);
+}
+
+void	free_pipe_struct(t_exec *exec)
+{
+	if (exec->path_cmd)
+		free_array(exec->path_cmd);
+	if (exec->cmd_full)
+		free_array(exec->cmd_full);
+	if (exec->env)
+		free_array(exec->env);
 }

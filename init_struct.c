@@ -1,20 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_struct.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 16:18:54 by rdanyell          #+#    #+#             */
+/*   Updated: 2022/06/17 12:20:47 by marlean          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-t_split *init_split(char *str)
+t_split	*init_split(char *str)
 {
-	t_split *split_w;
+	t_split	*split_w;
 
 	split_w = malloc(sizeof(t_split));
 	split_w->words = count_words(str, 0, 0);
-	split_w->split_by_words = (char **)malloc((split_w->words + 1) * sizeof(char *));
+	split_w->split_by_words = (char **)malloc((split_w->words + 1) * \
+															sizeof(char *));
 	if (!split_w->split_by_words)
 		exit(1);
 	return (split_w);
 }
 
-t_words *init_write_w(char *str)
+t_words	*init_write_w(char *str)
 {
-	t_words *write_w;
+	t_words	*write_w;
 
 	write_w = malloc(sizeof(t_words));
 	write_w->count_one = 0;
@@ -22,15 +35,16 @@ t_words *init_write_w(char *str)
 	write_w->j = 0;
 	write_w->i = 0;
 	write_w->len = count_space(str);
-	write_w->res = malloc(sizeof(char *) * write_w->len + 1);
+	write_w->res = malloc(sizeof(char *) * (write_w->len + 1));
+	write_w->res[write_w->len] = '\0';
 	if (!write_w->res)
 		exit(1);
 	return (write_w);
 }
 
-t_com *init_com(void)
+t_com	*init_com(void)
 {
-	t_com *com;
+	t_com	*com;
 
 	com = malloc(sizeof(t_com));
 	com->name = NULL;
@@ -41,9 +55,9 @@ t_com *init_com(void)
 	return (com);
 }
 
-t_dollar *init_doll(void)
+t_dollar	*init_doll(void)
 {
-	t_dollar *doll;
+	t_dollar	*doll;
 
 	doll = malloc(sizeof(t_dollar));
 	doll->tmp = NULL;

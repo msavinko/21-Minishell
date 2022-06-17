@@ -84,43 +84,6 @@ char	*get_value_from_envp(t_envp *envp_list, char *str)
 	return (ft_strdup(envp_list->value));
 }
 
-// void	add_var_to_envp_list(t_envp **envp_list, char **array, char *str)
-// {
-// 	t_envp	*tmp;
-// 	t_envp	*new;
-// 	char	*buffer;
-// 	int		flag;
-
-// 	flag = 0;
-// 	tmp = *envp_list;
-// 	if (!array[1])
-// 		return ;
-// 	while (tmp)
-// 	{
-// 		if (!ft_strcmp(tmp->key, array[0]))
-// 		{
-// 			if (ft_strchr(array[1], '+'))
-// 			{
-// 				buffer = tmp->value;
-// 				tmp->value = ft_strjoin(tmp->value, array[2]);
-// 				free(buffer);
-// 			}
-// 			else
-// 			{
-// 				free(tmp->value);
-// 				tmp->value = ft_strdup(array[2]);
-// 			}
-// 			flag = 1;
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// 	if (!flag)
-// 	{
-// 		new = envp_new(str);
-// 		envp_add_front(envp_list, new);
-// 	}
-// }
-
 void	add_var_to_envp_list(t_envp **envp_list, char **array, char *str)
 {
 	t_envp	*tmp;

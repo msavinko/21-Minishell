@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   replace_dollar.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rdanyell <rdanyell@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 16:18:54 by rdanyell          #+#    #+#             */
+/*   Updated: 2022/06/16 16:49:53 by rdanyell         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char *subst_dollar(char *com, t_envp *envp_list)
+char	*subst_dollar(char *com, t_envp *envp_list)
 {
 	while (envp_list)
 	{
@@ -11,9 +23,9 @@ char *subst_dollar(char *com, t_envp *envp_list)
 	return ("");
 }
 
-void change_dollar1(t_dollar *doll, char *str)
+void	change_dollar1(t_dollar *doll, char *str)
 {
-	char *tmp_str;
+	char	*tmp_str;
 
 	doll->rez = ft_strjoin(doll->head, doll->com);
 	tmp_str = doll->rez;
@@ -24,12 +36,12 @@ void change_dollar1(t_dollar *doll, char *str)
 	ft_free(doll->tail);
 }
 
-char *change_dollar(t_dollar *doll, char *str, int *num, t_envp *envp_list)
+char	*chng_doll(t_dollar *doll, char *str, int *num, t_envp *envp_list)
 {
-	int n;
-	int i;
-	t_envp *tmp;
-	char *tmp_str;
+	int		n;
+	int		i;
+	t_envp	*tmp;
+	char	*tmp_str;
 
 	n = *num;
 	doll->rez = ft_substr(str, 0, ft_strlen(str));
@@ -51,25 +63,25 @@ char *change_dollar(t_dollar *doll, char *str, int *num, t_envp *envp_list)
 	return (doll->rez);
 }
 
-void replace_dollar1(t_dollar *doll, int *ind, char **str, t_envp *envp_list)
+void	repl_doll(t_dollar *doll, int *ind, char **str, t_envp *envp_list)
 {
-	int i;
+	int	i;
 
 	i = *ind;
 	if ((*str)[i + 1] && (*str)[i + 1] != '?')
 	{
 		doll->tmp = *str;
-		*str = change_dollar(doll, *str, &i, envp_list);
+		*str = chng_doll(doll, *str, &i, envp_list);
 		ft_free(doll->tmp);
 		doll->count_one = 0;
 		doll->count_double = 0;
 	}
 }
 
-int replace_dollar(char **str, t_envp *envp_list)
+int	replace_dollar(char **str, t_envp *envp_list)
 {
-	t_dollar *doll;
-	int i;
+	t_dollar	*doll;
+	int			i;
 
 	i = 0;
 	doll = init_doll();
@@ -78,7 +90,7 @@ int replace_dollar(char **str, t_envp *envp_list)
 		if ((*str)[i] == '<' && ((*str)[i + 1] && (*str)[i + 1] == '<'))
 			dollar_redirect(*str, &i);
 		if ((*str)[i] == '$' && doll->count_one % 2 == 0)
-			replace_dollar1(doll, &i, str, envp_list);
+			repl_doll(doll, &i, str, envp_list);
 		if ((*str)[i] == '\'' && doll->count_double % 2 == 0)
 			doll->count_one++;
 		if ((*str)[i] == '\"' && doll->count_one % 2 == 0)
@@ -88,8 +100,3 @@ int replace_dollar(char **str, t_envp *envp_list)
 	free(doll);
 	return (0);
 }
-
-// hey lala $PWD$SHELL
-// hey $lala $1 $PWD kk''
-
-// hey lala /Users/mariasavinova/Desktop / 21 - Minishell / bin / zsh

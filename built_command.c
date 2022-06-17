@@ -6,7 +6,7 @@
 /*   By: rdanyell <rdanyell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:00:45 by rdanyell          #+#    #+#             */
-/*   Updated: 2022/06/14 15:41:33 by rdanyell         ###   ########.fr       */
+/*   Updated: 2022/06/16 14:14:53 by rdanyell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,26 @@ void	get_env(t_envp *env, t_exec *exec)
 		tmp = ft_strjoin(env->key, "=");
 		exec->env[i] = ft_strjoin(tmp, env->value);
 		env = env->next;
+		free(tmp);
 		i++;
+	}
+}
+
+void	check_extra_args(t_com *coms, t_exec *exec, int i, int j)
+{
+	while (coms && coms->delim != 1)
+	{
+		if (coms->arg)
+		{
+			while (coms->arg[j])
+			{
+				exec->cmd_full[i] = ft_strdup(coms->arg[j]);
+				i++;
+				j++;
+			}
+		}
+		j = 0;
+		coms = coms->next;
 	}
 }
 
@@ -80,54 +99,9 @@ void	find_args(t_com *com, t_exec *exec)
 			}
 		}
 		if (!coms->arg)
-		{
 			exec->cmd_full[1] = (char *)malloc(sizeof(char *));
-		}
 	}
-	while (coms && coms->delim != 1)
-	{
-		if (coms->arg)
-		{
-			while (coms->arg[j])
-			{
-				exec->cmd_full[i] = ft_strdup(coms->arg[j]);
-				i++;
-				j++;
-			}
-		}
-		j = 0;
-		coms = coms->next;
-	}
-}
-
-void	make_full_com(t_com *com, t_exec *exec)
-{
-	t_com	*full_com;
-	t_com	*com_name;
-	int		com_num;
-
-	com_num = 1;
-	full_com = com;
-	com_name = com;
-	while (full_com && full_com->delim != 1)
-	{
-		full_com = full_com->next;
-		com_num++;
-	}
-	exec->cmd_full = (char **)malloc(sizeof(char *) * (com_num * 10));
-	//нужно маллочить под кол-во аргументов, которое мы не знаем
-	if (com_name->delim == 0 || com_name->delim == 1)
-		check_cmd(com_name, exec);
-	while (com_name && com_name->delim != 1)
-	{
-		if (com_name->name)
-		{
-			check_cmd(com_name, exec);
-			break ;
-		}
-		com_name = com_name->next;
-	}
-	find_args(com, exec);
+	check_extra_args(coms, exec, i, j);
 }
 
 void	check_cmd(t_com *com, t_exec *exec)
@@ -148,8 +122,12 @@ void	check_cmd(t_com *com, t_exec *exec)
 		exec->cmd_exec = make_cmd(command, exec);
 		if (!exec->cmd_exec)
 		{
-			exec->cmd_exec = command->name;
+			ft_putstr_fd("Myshell 🐚: ", 2);
+			ft_putstr_fd(command->name, 2);
+			ft_putendl_fd(": command not found", 2);
 			g_exit_status = 127;
+			free_pipe_struct(exec);
+			exit(127);
 		}
 	}
 }

@@ -5,56 +5,68 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/20 13:26:39 by marlean           #+#    #+#             */
-/*   Updated: 2022/02/18 11:03:51 by marlean          ###   ########.fr       */
+/*   Created: 2022/06/17 13:46:47 by marlean           #+#    #+#             */
+/*   Updated: 2022/06/17 13:47:00 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_len(long int num)
+static int	ft_buf_len(int nb, char *s, int len)
 {
-	int	len;
-
-	len = 0;
-	if (num < 0)
+	while (nb > 0)
 	{
-		num *= -1;
-		len++;
-	}
-	while (num > 0)
-	{
-		num = num / 10;
+		s[len] = (char)(nb % 10);
+		nb = nb / 10;
 		len++;
 	}
 	return (len);
 }
 
-char	*ft_itoa(long int num)
+static char	*ft_buf_cpy(char *s2, char *s1, int size)
 {
-	char				*str;
-	int					len;
+	int	j;
 
-	len = ft_len(num);
-	if (num == 0)
-		len = 1;
-	str = malloc(len + 1);
-	if (!str)
-		return (NULL);
-	str[len] = '\0';
-	if (num < 0)
+	j = 0;
+	if (s1[0] == '-' || s1[0] == '0')
 	{
-		str[0] = '-';
-		num *= -1;
+		s2[j] = s1[0];
+		j++;
+		while (size > 0)
+			s2[j++] = s1[size--] + '0';
 	}
-	while (num > 0)
+	else
 	{
-		if ((num % 10) > 9)
-			str[len - 1] = (num % 10) + 'a' - 10;
+		while (size >= 0)
+			s2[j++] = s1[size--] + '0';
+	}
+	s2[j] = '\0';
+	return (s2);
+}
+
+char	*ft_itoa(int n)
+{
+	int		i;
+	char	tmp[12];
+	char	*result;
+
+	i = 0;
+	if (n < 0)
+	{
+		tmp[i++] = '-';
+		if (n == -2147483648)
+		{
+			tmp[i++] = (char)8;
+			n = 214748364;
+		}
 		else
-			str[len - 1] = (num % 10) + '0';
-		num = num / 10;
-		len--;
+			n = -n;
 	}
-	return (str);
+	if (n == 0)
+		tmp[i++] = '0';
+	i = ft_buf_len(n, tmp, i);
+	result = (char *)malloc(sizeof(char) * (i + 1));
+	if (result == NULL)
+		return (NULL);
+	return (ft_buf_cpy(result, tmp, --i));
 }
